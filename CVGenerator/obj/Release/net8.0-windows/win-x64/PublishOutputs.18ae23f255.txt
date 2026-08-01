@@ -1,0 +1,2 @@
+D:\githubprojects\cv maker\CVGenerator\Publish\appsettings.json
+D:\githubprojects\cv maker\CVGenerator\Publish\CVGenerator.exe

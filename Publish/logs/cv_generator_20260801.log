@@ -1,0 +1,33 @@
+2026-08-01 12:21:23.565 +01:00 [INF] === CV Generator Starting ===
+2026-08-01 12:21:23.661 +01:00 [INF] Configuration loaded. Model: gemini-1.5-pro, Output: Output
+2026-08-01 12:27:39.759 +01:00 [INF] Image loaded: D:\Designe\CV MODEL\amina ait rahhou.pdf
+2026-08-01 12:27:42.851 +01:00 [INF] Starting OCR extraction from image (543022 bytes)
+2026-08-01 12:27:42.960 +01:00 [INF] Sending request to Gemini API...
+2026-08-01 12:27:51.562 +01:00 [ERR] HTTP error communicating with Gemini API
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+2026-08-01 12:27:51.578 +01:00 [ERR] Image processing failed
+System.InvalidOperationException: فشل الاتصال بـ Gemini API: Response status code does not indicate success: 400 (Bad Request).
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+   --- End of inner exception stack trace ---
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+   at CVGenerator.ViewModels.MainViewModel.ProcessImage()
+2026-08-01 12:28:46.640 +01:00 [INF] Image loaded: C:\Users\Jaklin\Desktop\Screenshot 2026-08-01 122832.png
+2026-08-01 12:28:48.702 +01:00 [INF] Starting OCR extraction from image (284579 bytes)
+2026-08-01 12:28:48.714 +01:00 [INF] Sending request to Gemini API...
+2026-08-01 12:28:52.852 +01:00 [ERR] HTTP error communicating with Gemini API
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+2026-08-01 12:28:52.853 +01:00 [ERR] Image processing failed
+System.InvalidOperationException: فشل الاتصال بـ Gemini API: Response status code does not indicate success: 400 (Bad Request).
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+   --- End of inner exception stack trace ---
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
+   at CVGenerator.ViewModels.MainViewModel.ProcessImage()
+2026-08-01 12:29:17.646 +01:00 [INF] === CV Generator Shutting Down ===

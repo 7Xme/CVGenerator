@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="Common.Next" xml:space="preserve">Next Step</data>
+  <data name="Common.Previous" xml:space="preserve">Previous Step</data>
+  <data name="Common.Cancel" xml:space="preserve">Cancel</data>
+  <data name="Common.Back" xml:space="preserve">Back</data>
+  <data name="Common.Save" xml:space="preserve">Save</data>
+  <data name="Common.SaveDraft" xml:space="preserve">Save Draft</data>
+  <data name="Common.LoadDraft" xml:space="preserve">Load Draft</data>
+  <data name="Common.Delete" xml:space="preserve">Delete</data>
+  <data name="Common.Add" xml:space="preserve">Add</data>
+  <data name="Common.Yes" xml:space="preserve">Yes</data>
+  <data name="Common.No" xml:space="preserve">No</data>
+  <data name="Common.Close" xml:space="preserve">Close</data>
+
+  <data name="Language.Label" xml:space="preserve">Language</data>
+  <data name="Language.English" xml:space="preserve">English</data>
+  <data name="Language.French" xml:space="preserve">Français</data>
+  <data name="Language.Arabic" xml:space="preserve">العربية</data>
+
+  <data name="Landing.Title" xml:space="preserve">Smart CV Generator</data>
+  <data name="Landing.Subtitle" xml:space="preserve">Powered by Google Gemini AI</data>
+  <data name="Landing.AiTitle" xml:space="preserve">Create with AI</data>
+  <data name="Landing.AiDesc" xml:space="preserve">Upload a photo of a handwritten CV form and let Gemini extract, clean and format the data automatically.</data>
+  <data name="Landing.ManualTitle" xml:space="preserve">Create Manually</data>
+  <data name="Landing.ManualDesc" xml:space="preserve">Build your CV from scratch with the guided 3-step wizard, then export to PDF, PowerPoint or Word.</data>
+  <data name="Landing.LaunchAi" xml:space="preserve">Start with AI</data>
+  <data name="Landing.LaunchManual" xml:space="preserve">Start Manual Builder</data>
+  <data name="Landing.Footer" xml:space="preserve">© 2026 Smart CV Generator | Your data is processed locally</data>
+
+  <data name="Wizard.Title" xml:space="preserve">Manual CV Builder</data>
+  <data name="Wizard.Step1Title" xml:space="preserve">Personal Details</data>
+  <data name="Wizard.Step2Title" xml:space="preserve">My Experiences</data>
+  <data name="Wizard.Step3Title" xml:space="preserve">Select Template</data>
+  <data name="Wizard.Step1Subtitle" xml:space="preserve">Tell us about yourself</data>
+  <data name="Wizard.Step2Subtitle" xml:space="preserve">Add your education, experience and skills</data>
+  <data name="Wizard.Step3Subtitle" xml:space="preserve">Pick a design and download your resume</data>
+  <data name="Wizard.Finish" xml:space="preserve">Download Resume</data>
+
+  <data name="Step1.FirstName" xml:space="preserve">First Name</data>
+  <data name="Step1.LastName" xml:space="preserve">Last Name</data>
+  <data name="Step1.Required" xml:space="preserve">*</data>
+  <data name="Step1.Email" xml:space="preserve">Email</data>
+  <data name="Step1.EmailInvalid" xml:space="preserve">Please enter a valid email address</data>
+  <data name="Step1.Phone" xml:space="preserve">Phone</data>
+  <data name="Step1.Address" xml:space="preserve">Address</data>
+  <data name="Step1.ZipCode" xml:space="preserve">Zip code</data>
+  <data name="Step1.City" xml:space="preserve">City/Town</data>
+  <data name="Step1.CityPlaceholder" xml:space="preserve">e.g. San Francisco</data>
+  <data name="Step1.DateOfBirth" xml:space="preserve">Date of Birth</data>
+  <data name="Step1.Day" xml:space="preserve">Day</data>
+  <data name="Step1.Month" xml:space="preserve">Month</data>
+  <data name="Step1.Year" xml:space="preserve">Year</data>
+  <data name="Step1.PlaceOfBirth" xml:space="preserve">Place of birth</data>
+  <data name="Step1.DrivingLicense" xml:space="preserve">Driving license</data>
+  <data name="Step1.Gender" xml:space="preserve">Gender</data>
+  <data name="Step1.GenderMale" xml:space="preserve">Male</data>
+  <data name="Step1.GenderFemale" xml:space="preserve">Female</data>
+  <data name="Step1.GenderNotSay" xml:space="preserve">Prefer not to say</data>
+  <data name="Step1.ResumeLanguage" xml:space="preserve">Resume Language</data>
+  <data name="Step1.ResumeLangEn" xml:space="preserve">English</data>
+  <data name="Step1.ResumeLangFr" xml:space="preserve">Français</data>
+  <data name="Step1.ResumeLangAr" xml:space="preserve">العربية</data>
+  <data name="Step1.PhotoDrop" xml:space="preserve">Drop your photo here or click to browse</data>
+  <data name="Step1.PhotoBrowse" xml:space="preserve">Browse…</data>
+  <data name="Step1.PhotoChange" xml:space="preserve">Change photo</data>
+  <data name="Step1.ValidationFirstName" xml:space="preserve">First name is required</data>
+  <data name="Step1.ValidationLastName" xml:space="preserve">Last name is required</data>
+  <data name="Step1.ValidationEmail" xml:space="preserve">Email is required</data>
+
+  <data name="Step2.AddSection" xml:space="preserve">Add extra section</data>
+  <data name="Step2.AddLanguages" xml:space="preserve">Languages</data>
+  <data name="Step2.AddCourses" xml:space="preserve">Courses</data>
+  <data name="Step2.AddAchievements" xml:space="preserve">Achievements</data>
+  <data name="Step2.AddPublications" xml:space="preserve">Publications</data>
+  <data name="Step2.AddCustom" xml:space="preserve">Create custom section…</data>
+  <data name="Step2.CustomTitle" xml:space="preserve">Section title</data>
+  <data name="Step2.Rename" xml:space="preserve">Rename section</data>
+  <data name="Step2.HideInCv" xml:space="preserve">Hide in final CV</data>
+  <data name="Step2.ShowInCv" xml:space="preserve">Show in final CV</data>
+  <data name="Step2.Delete" xml:space="preserve">Delete section</data>
+  <data name="Step2.MoveUp" xml:space="preserve">Move up</data>
+  <data name="Step2.MoveDown" xml:space="preserve">Move down</data>
+  <data name="Step2.AddEntry" xml:space="preserve">Add entry</data>
+  <data name="Step2.RemoveEntry" xml:space="preserve">Remove</data>
+  <data name="Step2.CurrentlyWorking" xml:space="preserve">Currently working here</data>
+  <data name="Step2.Period" xml:space="preserve">Period</data>
+  <data name="Step2.JobTitle" xml:space="preserve">Job Title</data>
+  <data name="Step2.Employer" xml:space="preserve">Employer</data>
+  <data name="Step2.City" xml:space="preserve">City</data>
+  <data name="Step2.Description" xml:space="preserve">Description</data>
+  <data name="Step2.Institution" xml:space="preserve">Institution</data>
+  <data name="Step2.Degree" xml:space="preserve">Degree</data>
+  <data name="Step2.FieldOfStudy" xml:space="preserve">Field of Study</data>
+  <data name="Step2.Name" xml:space="preserve">Name</data>
+  <data name="Step2.Company" xml:space="preserve">Company</data>
+  <data name="Step2.Phone" xml:space="preserve">Phone</data>
+  <data name="Step2.Email" xml:space="preserve">Email</data>
+  <data name="Step2.Skill" xml:space="preserve">Skill</data>
+  <data name="Step2.Proficiency" xml:space="preserve">Proficiency</data>
+  <data name="Step2.Level" xml:space="preserve">Level</data>
+  <data name="Step2.Title" xml:space="preserve">Title</data>
+  <data name="Step2.Date" xml:space="preserve">Date</data>
+  <data name="Step2.Publisher" xml:space="preserve">Publisher</data>
+  <data name="Step2.Url" xml:space="preserve">URL</data>
+  <data name="Step2.ObjectivePlaceholder" xml:space="preserve">Write a short professional summary…</data>
+  <data name="Step2.Tips" xml:space="preserve">Tips</data>
+  <data name="Step2.Save" xml:space="preserve">Save</data>
+  <data name="Step2.SkillLevelBeginner" xml:space="preserve">Beginner</data>
+  <data name="Step2.SkillLevelIntermediate" xml:space="preserve">Intermediate</data>
+  <data name="Step2.SkillLevelAdvanced" xml:space="preserve">Advanced</data>
+  <data name="Step2.SkillLevelExpert" xml:space="preserve">Expert</data>
+  <data name="Step2.SkillLevelNative" xml:space="preserve">Native</data>
+  <data name="Step2.TipsObjectiveTitle" xml:space="preserve">Writing tips for your objective</data>
+  <data name="Step2.TipsObjectiveBody" xml:space="preserve">• Keep it between 2 and 4 sentences.
+• Mention your experience level and main field.
+• Highlight 2 or 3 key strengths.
+• Finish with what you aim to bring to a new role.
+• Avoid clichés like "hard worker" without evidence.</data>
+
+  <data name="Section.Objective" xml:space="preserve">Resume Objective</data>
+  <data name="Section.WorkExperience" xml:space="preserve">Work Experience</data>
+  <data name="Section.Education" xml:space="preserve">Education and Qualifications</data>
+  <data name="Section.Interests" xml:space="preserve">Interests</data>
+  <data name="Section.References" xml:space="preserve">References</data>
+  <data name="Section.Skills" xml:space="preserve">Skills</data>
+  <data name="Section.Languages" xml:space="preserve">Languages</data>
+  <data name="Section.Courses" xml:space="preserve">Courses</data>
+  <data name="Section.Achievements" xml:space="preserve">Achievements</data>
+  <data name="Section.Publications" xml:space="preserve">Publications</data>
+
+  <data name="Step3.Download" xml:space="preserve">Download Resume</data>
+  <data name="Step3.ExportPdf" xml:space="preserve">PDF</data>
+  <data name="Step3.ExportPpt" xml:space="preserve">PowerPoint</data>
+  <data name="Step3.ExportDocx" xml:space="preserve">Word</data>
+  <data name="Step3.Selected" xml:space="preserve">Selected</data>
+
+  <data name="Ai.Title" xml:space="preserve">Smart CV Generator</data>
+  <data name="Ai.Subtitle" xml:space="preserve">Powered by Google Gemini AI</data>
+  <data name="Ai.ImagePrompt" xml:space="preserve">Image of the handwritten form:</data>
+  <data name="Ai.DropHint" xml:space="preserve">Drop image here or click to browse</data>
+  <data name="Ai.Formats" xml:space="preserve">JPG, PNG, BMP, TIFF</data>
+  <data name="Ai.Browse" xml:space="preserve">Choose File</data>
+  <data name="Ai.ApiKey" xml:space="preserve">Gemini API Key:</data>
+  <data name="Ai.Confidence" xml:space="preserve">Extraction confidence:</data>
+  <data name="Ai.StatusReady" xml:space="preserve">Ready</data>
+  <data name="Ai.Warnings" xml:space="preserve">Warnings</data>
+  <data name="Ai.Process" xml:space="preserve">Process image & extract data</data>
+  <data name="Ai.GeneratePpt" xml:space="preserve">Generate PowerPoint</data>
+  <data name="Ai.PrintPreview" xml:space="preserve">Preview / Print</data>
+  <data name="Ai.Print" xml:space="preserve">Print</data>
+  <data name="Ai.SampleData" xml:space="preserve">Load sample data</data>
+  <data name="Ai.ExportJson" xml:space="preserve">Export JSON</data>
+  <data name="Ai.Clear" xml:space="preserve">Clear all</data>
+  <data name="Ai.Extracted" xml:space="preserve">Extracted data (editable):</data>
+  <data name="Ai.TabPersonal" xml:space="preserve">Personal Info</data>
+  <data name="Ai.TabEducation" xml:space="preserve">Education</data>
+  <data name="Ai.TabExperience" xml:space="preserve">Experience</data>
+  <data name="Ai.TabSkills" xml:space="preserve">Skills</data>
+  <data name="Ai.TabLanguages" xml:space="preserve">Languages</data>
+  <data name="Ai.Footer" xml:space="preserve">© 2026 Smart CV Generator | Your data is processed locally</data>
+  <data name="Ai.FullName" xml:space="preserve">Full name:</data>
+  <data name="Ai.FullNameLatin" xml:space="preserve">Full name (Latin):</data>
+  <data name="Ai.Phone1" xml:space="preserve">Phone 1:</data>
+  <data name="Ai.Phone2" xml:space="preserve">Phone 2:</data>
+  <data name="Ai.Email" xml:space="preserve">Email:</data>
+  <data name="Ai.NationalId" xml:space="preserve">National ID:</data>
+  <data name="Ai.License" xml:space="preserve">Driving license:</data>
+  <data name="Ai.Address" xml:space="preserve">Address:</data>
+  <data name="Ai.Summary" xml:space="preserve">Summary:</data>
+  <data name="Ai.Degree" xml:space="preserve">Degree</data>
+  <data name="Ai.Institution" xml:space="preserve">Institution</data>
+  <data name="Ai.Year" xml:space="preserve">Year</data>
+  <data name="Ai.Mention" xml:space="preserve">Mention</data>
+  <data name="Ai.Company" xml:space="preserve">Company</data>
+  <data name="Ai.Position" xml:space="preserve">Position</data>
+  <data name="Ai.From" xml:space="preserve">From</data>
+  <data name="Ai.To" xml:space="preserve">To</data>
+  <data name="Ai.SkillName" xml:space="preserve">Skill</data>
+  <data name="Ai.Level" xml:space="preserve">Level</data>
+
+  <data name="Status.DraftPrompt" xml:space="preserve">You have an unsaved draft from a previous session. Would you like to resume it?</data>
+  <data name="Status.DraftResumed" xml:space="preserve">Draft loaded successfully</data>
+  <data name="Status.Saved" xml:space="preserve">Draft saved</data>
+  <data name="Status.PdfDone" xml:space="preserve">PDF generated: {0}</data>
+  <data name="Status.PptDone" xml:space="preserve">PowerPoint generated: {0}</data>
+  <data name="Status.DocxDone" xml:space="preserve">Word document generated: {0}</data>
+  <data name="Status.NoDraft" xml:space="preserve">No saved draft found</data>
+</root>
