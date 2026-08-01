@@ -1,17 +1,16 @@
 <Window x:Class="CVGenerator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:CVGenerator.ViewModels"
+        xmlns:loc="clr-namespace:CVGenerator.Localization"
         xmlns:conv="clr-namespace:CVGenerator.Converters"
-        Title="نظام إنشاء CV بالذكاء الاصطناعي"
+        Title="{loc:Loc Landing.Title}"
         Height="850" Width="1300"
-        FlowDirection="RightToLeft"
+        FlowDirection="{Binding WindowFlowDirection, Source={x:Static loc:LocalizationService.Instance}}"
         WindowStartupLocation="CenterScreen"
         Background="#F4F6F8">
 
     <Window.Resources>
-        <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
-        <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVis"/>
+        <conv:IntToVisibilityConverter x:Key="IntToVis"/>
     </Window.Resources>
 
     <Grid>
@@ -21,309 +20,40 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ======================== HEADER ======================== -->
-        <Border Background="#2C3E50" Padding="20">
-            <StackPanel>
-                <TextBlock Text="نظام إنشاء CV الذكي"
-                           FontSize="28" FontWeight="Bold"
-                           Foreground="White" HorizontalAlignment="Center"
-                           FontFamily="Segoe UI"/>
-                <TextBlock Text="Powered by Google Gemini AI"
-                           FontSize="14" Foreground="#BDC3C7"
-                           HorizontalAlignment="Center" Margin="0,5,0,0"/>
-            </StackPanel>
+        <!-- Top bar -->
+        <Border Background="#2C3E50" Padding="16,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="📄" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="{loc:Loc Landing.Title}" FontSize="17" FontWeight="Bold"
+                               Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="{loc:Loc Landing.Subtitle}" FontSize="11" Foreground="#BDC3C7"
+                               Margin="12,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{loc:Loc Language.Label}" FontSize="12" Foreground="#BDC3C7"
+                               VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <ComboBox x:Name="LanguageCombo" Width="120" Height="28"
+                              VerticalContentAlignment="Center" SelectionChanged="LanguageCombo_SelectionChanged">
+                        <ComboBoxItem Tag="en" Content="{loc:Loc Language.English}"/>
+                        <ComboBoxItem Tag="fr" Content="{loc:Loc Language.French}"/>
+                        <ComboBoxItem Tag="ar" Content="{loc:Loc Language.Arabic}"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
         </Border>
 
-        <!-- ======================== MAIN CONTENT ======================== -->
-        <Grid Grid.Row="1" Margin="16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="380"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <!-- Content -->
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}"/>
 
-            <!-- ============ LEFT PANEL ============ -->
-            <Border BorderBrush="#BDC3C7" BorderThickness="1"
-                    CornerRadius="12" Padding="20"
-                    Background="White" Margin="0,0,8,0">
-                <StackPanel>
-                    <!-- Image Upload Area -->
-                    <TextBlock Text="صورة النموذج اليدوي:" FontSize="15"
-                               FontWeight="Bold" Margin="0,0,0,10" Foreground="#2C3E50"/>
-
-                    <Border BorderBrush="#3498DB" BorderThickness="2"
-                            CornerRadius="12"
-                            Background="#F8F9FA" Height="240"
-                            Cursor="Hand" MouseLeftButtonDown="ImageArea_Click">
-                        <Grid>
-                            <StackPanel x:Name="uploadPlaceholder" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                        Visibility="{Binding ImagePreviewPath, Converter={StaticResource InverseBoolToVis}, FallbackValue=Visible}">
-                                <TextBlock Text="📷" FontSize="48" HorizontalAlignment="Center"/>
-                                <TextBlock Text="اسحب الصورة هنا أو اضغط للاختيار"
-                                           FontSize="13" Foreground="#7F8C8D"
-                                           HorizontalAlignment="Center" Margin="0,8,0,0"/>
-                                <TextBlock Text="JPG, PNG, BMP, TIFF"
-                                           FontSize="11" Foreground="#BDC3C7"
-                                           HorizontalAlignment="Center" Margin="0,4,0,0"/>
-                            </StackPanel>
-                            <Image x:Name="imgPreview" Stretch="Uniform"
-                                   Source="{Binding ImagePreviewPath}"
-                                   Visibility="{Binding ImagePreviewPath, Converter={StaticResource BoolToVis}}"/>
-                        </Grid>
-                    </Border>
-
-                    <Button x:Name="btnBrowse" Content="اختيار ملف" Width="160" Height="38"
-                            Margin="0,12,0,0" Background="#3498DB" Foreground="White"
-                            Command="{Binding BrowseImageCommand}"
-                            HorizontalAlignment="Center"/>
-
-                    <!-- API Key -->
-                    <TextBlock Text="مفتاح Gemini API:" FontSize="13"
-                               FontWeight="Bold" Margin="0,20,0,5" Foreground="#2C3E50"/>
-                    <PasswordBox x:Name="txtApiKey" Height="36"/>
-
-                    <!-- Confidence Score -->
-                    <Border Background="#F0F8FF" CornerRadius="8" Padding="10" Margin="0,12,0,0"
-                            Visibility="{Binding CanGeneratePpt, Converter={StaticResource BoolToVis}}">
-                        <StackPanel>
-                            <TextBlock Text="نسبة الثقة في الاستخراج:" FontSize="12" Foreground="#2C3E50"/>
-                            <ProgressBar Value="{Binding ConfidenceScore}" Maximum="1" Height="12"
-                                         Margin="0,6,0,0" Foreground="#27AE60"/>
-                            <TextBlock Text="{Binding ConfidenceScore, StringFormat={}{0:P1}}"
-                                       FontSize="13" FontWeight="Bold"
-                                       HorizontalAlignment="Center" Foreground="#27AE60"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Warnings -->
-                    <ScrollViewer MaxHeight="80" Margin="0,8,0,0"
-                                  Visibility="{Binding WarningsText, Converter={StaticResource BoolToVis}}">
-                        <TextBlock Text="{Binding WarningsText}" FontSize="11"
-                                   Foreground="#E67E22" TextWrapping="Wrap"/>
-                    </ScrollViewer>
-
-                    <!-- Progress -->
-                    <ProgressBar Value="{Binding ProgressValue}" Maximum="100" Height="6"
-                                 Margin="0,16,0,0"
-                                 Visibility="{Binding IsProcessing, Converter={StaticResource BoolToVis}}"/>
-
-                    <TextBlock Text="{Binding StatusMessage}" FontSize="12"
-                               Foreground="#7F8C8D" Margin="0,6,0,0" TextWrapping="Wrap"/>
-
-                    <!-- Action Buttons -->
-                    <Button Content="معالجة الصورة واستخراج البيانات"
-                            Height="46" Margin="0,16,0,8"
-                            Background="#27AE60" Foreground="White"
-                            FontSize="14" FontWeight="Bold"
-                            Command="{Binding ProcessImageCommand}"
-                            IsEnabled="{Binding IsProcessing, Converter={StaticResource InverseBoolToVis}}"/>
-
-                    <Button Content="إنشاء PowerPoint"
-                            Height="40" Margin="0,0,0,8"
-                            Background="#E67E22" Foreground="White"
-                            FontSize="13"
-                            Command="{Binding GeneratePowerPointCommand}"
-                            IsEnabled="{Binding CanGeneratePpt}"/>
-
-                    <Grid Margin="0,0,0,8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="معاينة / طباعة" Height="38"
-                                Background="#8E44AD" Foreground="White" FontSize="12"
-                                Command="{Binding PrintPreviewCommand}" IsEnabled="{Binding CanPrint}"
-                                Margin="0,0,4,0"/>
-                        <Button Grid.Column="1" Content="طباعة مباشرة" Height="38"
-                                Background="#E74C3C" Foreground="White" FontSize="12"
-                                Command="{Binding PrintDirectCommand}" IsEnabled="{Binding CanPrint}"
-                                Margin="4,0,0,0"/>
-                    </Grid>
-
-                    <!-- Extra actions -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="تحميل بيانات تجريبية" Height="34"
-                                Background="#95A5A6" Foreground="White" FontSize="11"
-                                Command="{Binding LoadSampleDataCommand}" Margin="0,0,4,0"/>
-                        <Button Grid.Column="1" Content="تصدير JSON" Height="34"
-                                Background="#1ABC9C" Foreground="White" FontSize="11"
-                                Command="{Binding ExportDataCommand}" Margin="4,0,0,0"/>
-                    </Grid>
-
-                    <Button Content="مسح الكل" Height="34" Margin="0,8,0,0"
-                            Background="#E74C3C" Foreground="White" FontSize="11"
-                            Command="{Binding ClearAllCommand}"/>
-                </StackPanel>
-            </Border>
-
-            <!-- ============ SEPARATOR ============ -->
-            <GridSplitter Grid.Column="1" Width="4" VerticalAlignment="Stretch"
-                          Background="#ECF0F1" HorizontalAlignment="Center"
-                          ResizeBehavior="PreviousAndNext"/>
-
-            <!-- ============ RIGHT PANEL ============ -->
-            <Border Grid.Column="2" BorderBrush="#BDC3C7" BorderThickness="1"
-                    CornerRadius="12" Padding="16" Background="White" Margin="8,0,0,0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="البيانات المستخرجة (قابلة للتعديل):"
-                               FontSize="15" FontWeight="Bold"
-                               Margin="0,0,0,10" Foreground="#2C3E50"/>
-
-                    <TabControl Grid.Row="1">
-                        <!-- Personal Info Tab -->
-                        <TabItem Header="معلومات شخصية">
-                            <ScrollViewer>
-                                <StackPanel Margin="8">
-                                    <TextBlock Text="الاسم الكامل:" FontSize="12" Foreground="#2C3E50"/>
-                                    <TextBox Text="{Binding FullName}" Height="32" Margin="0,4,0,10"/>
-
-                                    <TextBlock Text="الاسم باللاتينية:" FontSize="12" Foreground="#2C3E50"/>
-                                    <TextBox Text="{Binding FullNameLatin}" Height="32" Margin="0,4,0,10"/>
-
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="0,0,4,0">
-                                            <TextBlock Text="الهاتف 1:" FontSize="12" Foreground="#2C3E50"/>
-                                            <TextBox Text="{Binding PhonePrimary}" Height="32" Margin="0,4,0,10"/>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Margin="4,0,0,0">
-                                            <TextBlock Text="الهاتف 2:" FontSize="12" Foreground="#2C3E50"/>
-                                            <TextBox Text="{Binding PhoneSecondary}" Height="32" Margin="0,4,0,10"/>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <TextBlock Text="البريد الإلكتروني:" FontSize="12" Foreground="#2C3E50"/>
-                                    <TextBox Text="{Binding Email}" Height="32" Margin="0,4,0,10"/>
-
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0" Margin="0,0,4,0">
-                                            <TextBlock Text="رقم البطاقة الوطنية:" FontSize="12" Foreground="#2C3E50"/>
-                                            <TextBox Text="{Binding NationalId}" Height="32" Margin="0,4,0,10"/>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1" Margin="4,0,0,0">
-                                            <TextBlock Text="رخصة السياقة:" FontSize="12" Foreground="#2C3E50"/>
-                                            <TextBox Text="{Binding DrivingLicense}" Height="32" Margin="0,4,0,10"/>
-                                        </StackPanel>
-                                    </Grid>
-
-                                    <TextBlock Text="العنوان:" FontSize="12" Foreground="#2C3E50"/>
-                                    <TextBox Text="{Binding Address}" Height="32" Margin="0,4,0,10"/>
-
-                                    <TextBlock Text="نبذة تعريفية:" FontSize="12" Foreground="#2C3E50"/>
-                                    <TextBox Text="{Binding Summary}" AcceptsReturn="True"
-                                             TextWrapping="Wrap" Height="80" Margin="0,4,0,0"/>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </TabItem>
-
-                        <!-- Education Tab -->
-                        <TabItem Header="التعليم">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DataGrid ItemsSource="{Binding EducationList}" Margin="0,0,0,8">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="الشهادة" Binding="{Binding Degree}" Width="*"/>
-                                        <DataGridTextColumn Header="المؤسسة" Binding="{Binding Institution}" Width="*"/>
-                                        <DataGridTextColumn Header="السنة" Binding="{Binding Year}" Width="80"/>
-                                        <DataGridTextColumn Header="الميزة" Binding="{Binding Mention}" Width="100"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Content="+ إضافة" Width="90" Height="32" Background="#27AE60" Foreground="White" FontSize="11"/>
-                                    <Button Content="- حذف" Width="80" Height="32" Background="#E74C3C" Foreground="White" FontSize="11" Margin="8,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </TabItem>
-
-                        <!-- Experience Tab -->
-                        <TabItem Header="الخبرات">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DataGrid ItemsSource="{Binding ExperienceList}" Margin="0,0,0,8">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="الشركة" Binding="{Binding Company}" Width="*"/>
-                                        <DataGridTextColumn Header="المنصب" Binding="{Binding Position}" Width="*"/>
-                                        <DataGridTextColumn Header="من" Binding="{Binding StartDate}" Width="90"/>
-                                        <DataGridTextColumn Header="إلى" Binding="{Binding EndDate}" Width="90"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Content="+ إضافة" Width="90" Height="32" Background="#27AE60" Foreground="White" FontSize="11"/>
-                                    <Button Content="- حذف" Width="80" Height="32" Background="#E74C3C" Foreground="White" FontSize="11" Margin="8,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </TabItem>
-
-                        <!-- Skills Tab -->
-                        <TabItem Header="المهارات">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DataGrid ItemsSource="{Binding SkillList}" Margin="0,0,0,8">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="المهارة" Binding="{Binding Name}" Width="*"/>
-                                        <DataGridTextColumn Header="المستوى" Binding="{Binding Level}" Width="120"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Content="+ إضافة" Width="90" Height="32" Background="#27AE60" Foreground="White" FontSize="11"/>
-                                    <Button Content="- حذف" Width="80" Height="32" Background="#E74C3C" Foreground="White" FontSize="11" Margin="8,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </TabItem>
-
-                        <!-- Languages Tab -->
-                        <TabItem Header="اللغات">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                <DataGrid ItemsSource="{Binding LanguageList}" Margin="0,0,0,8">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="اللغة" Binding="{Binding Name}" Width="*"/>
-                                        <DataGridTextColumn Header="المستوى" Binding="{Binding Level}" Width="*"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
-                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <Button Content="+ إضافة" Width="90" Height="32" Background="#27AE60" Foreground="White" FontSize="11"/>
-                                    <Button Content="- حذف" Width="80" Height="32" Background="#E74C3C" Foreground="White" FontSize="11" Margin="8,0,0,0"/>
-                                </StackPanel>
-                            </Grid>
-                        </TabItem>
-                    </TabControl>
-                </Grid>
-            </Border>
-        </Grid>
-
-        <!-- ======================== FOOTER ======================== -->
+        <!-- Footer -->
         <Border Grid.Row="2" Background="#ECF0F1" Padding="12">
-            <TextBlock Text="2026 -  نظام CV الذكي | جميع البيانات تُعالج محلياً"
-                       HorizontalAlignment="Center" Foreground="#7F8C8D" FontSize="12"/>
+            <TextBlock Text="{loc:Loc Landing.Footer}" HorizontalAlignment="Center" Foreground="#7F8C8D" FontSize="12"/>
         </Border>
     </Grid>
 </Window>

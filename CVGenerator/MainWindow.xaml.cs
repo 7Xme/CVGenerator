@@ -1,25 +1,41 @@
-using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using CVGenerator.Localization;
 using CVGenerator.ViewModels;
-using Microsoft.Win32;
 
 namespace CVGenerator;
 
 public partial class MainWindow : Window
 {
-    private readonly MainViewModel _viewModel;
+    private readonly ShellViewModel _shell;
 
-    public MainWindow(MainViewModel viewModel)
+    public MainWindow(ShellViewModel shell)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        DataContext = _viewModel;
+        _shell = shell;
+        DataContext = _shell;
+
+        ApplyLanguageComboSelection();
     }
 
-    private void ImageArea_Click(object sender, MouseButtonEventArgs e)
+    private void ApplyLanguageComboSelection()
     {
-        _viewModel.BrowseImageCommand.Execute(null);
+        var current = LocalizationService.Instance.CurrentCulture.Name;
+        foreach (ComboBoxItem item in LanguageCombo.Items)
+        {
+            if (item.Tag is string tag && tag == current)
+            {
+                LanguageCombo.SelectedItem = item;
+                break;
+            }
+        }
+    }
+
+    private void LanguageCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (LanguageCombo.SelectedItem is ComboBoxItem { Tag: string tag })
+            LocalizationService.Instance.SetCulture(tag);
     }
 
     private void Window_KeyDown(object sender, KeyEventArgs e)

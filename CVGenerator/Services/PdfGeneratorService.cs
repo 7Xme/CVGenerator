@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.IO;
 using CVGenerator.Models;
 using CVGenerator.Models.SectionModels;
 using CVGenerator.Templates;
@@ -57,7 +58,7 @@ public class PdfGeneratorService
 
                     page.Footer().AlignCenter().Text(text =>
                     {
-                        text.Span(PageNumbers.Current.ToString()).FontColor("#90A4AE").FontSize(8);
+                        text.CurrentPageNumber().FontColor("#90A4AE").FontSize(8);
                     });
                 });
             }).GeneratePdf(outputPath);

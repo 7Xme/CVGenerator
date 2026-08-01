@@ -1,11 +1,25 @@
 <Application x:Class="CVGenerator.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:CVGenerator.ViewModels"
+             xmlns:views="clr-namespace:CVGenerator.Views">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles\ModernStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type vm:LandingViewModel}">
+                <views:LandingView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:MainViewModel}">
+                <views:AiModeView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:ManualWizardViewModel}">
+                <views:ManualWizardView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

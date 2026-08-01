@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text.Json;
 using CVGenerator.Data;
 using CVGenerator.Models;
@@ -14,7 +15,9 @@ public class DraftPersistenceService
 
     public DraftPersistenceService(string? dbPath = null)
     {
-        _dbPath = dbPath;
+        _dbPath = dbPath ?? Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "CVGenerator", "cvgenerator.db");
         EnsureDatabase();
     }
 

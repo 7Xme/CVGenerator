@@ -4,7 +4,7 @@
         xmlns:loc="clr-namespace:CVGenerator.Localization"
         Title="{Binding Title}" Width="420" SizeToContent="Height"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
-        FlowDirection="{loc:Loc WindowFlowDirection}">
+        FlowDirection="{Binding WindowFlowDirection, Source={x:Static loc:LocalizationService.Instance}}">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

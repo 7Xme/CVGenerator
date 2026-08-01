@@ -1,5 +1,6 @@
 using System.IO;
 using System.Windows;
+using CVGenerator.Localization;
 using CVGenerator.Services;
 using CVGenerator.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,9 @@ public partial class App : Application
         var services = new ServiceCollection();
         ConfigureServices(services);
         _serviceProvider = services.BuildServiceProvider();
+
+        var shell = _serviceProvider.GetRequiredService<ShellViewModel>();
+        shell.CurrentViewModel = _serviceProvider.GetRequiredService<LandingViewModel>();
 
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
         mainWindow.Show();
@@ -59,7 +63,22 @@ public partial class App : Application
 
         services.AddSingleton<ValidationService>();
         services.AddSingleton<PrintService>();
-        services.AddSingleton<MainViewModel>();
+
+        services.AddSingleton(LocalizationService.Instance);
+        services.AddSingleton<ShellViewModel>();
+        services.AddSingleton<NavigationService>();
+        services.AddSingleton<INavigationService>(sp => sp.GetRequiredService<NavigationService>());
+        services.AddSingleton<IUserDialog, UserDialogService>();
+        services.AddSingleton<DraftPersistenceService>();
+        services.AddSingleton<PdfGeneratorService>();
+        services.AddSingleton<WordExportService>();
+
+        services.AddTransient<LandingViewModel>();
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<Step1PersonalViewModel>();
+        services.AddTransient<Step2ExperiencesViewModel>();
+        services.AddTransient<ManualWizardViewModel>();
+
         services.AddTransient<MainWindow>();
     }
 

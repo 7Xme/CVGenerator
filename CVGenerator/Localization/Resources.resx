@@ -150,7 +150,7 @@
   <data name="Ai.Confidence" xml:space="preserve">Extraction confidence:</data>
   <data name="Ai.StatusReady" xml:space="preserve">Ready</data>
   <data name="Ai.Warnings" xml:space="preserve">Warnings</data>
-  <data name="Ai.Process" xml:space="preserve">Process image & extract data</data>
+  <data name="Ai.Process" xml:space="preserve">Process image &amp; extract data</data>
   <data name="Ai.GeneratePpt" xml:space="preserve">Generate PowerPoint</data>
   <data name="Ai.PrintPreview" xml:space="preserve">Preview / Print</data>
   <data name="Ai.Print" xml:space="preserve">Print</data>

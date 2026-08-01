@@ -331,7 +331,7 @@ public partial class Step2ExperiencesViewModel : ObservableObject
     public IReadOnlyList<SectionBase> GetSections() => Sections.ToList();
 }
 
-public class InputDialogViewModel : ObservableObject
+public partial class InputDialogViewModel : ObservableObject
 {
     public string Title { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;

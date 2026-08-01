@@ -1,3 +1,4 @@
+using System.IO;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -238,21 +239,21 @@ public class WordExportService
     private static void AddHorizontalRule(Body body)
     {
         var paragraph = new Paragraph(
-            new ParagraphProperties(new PPrBase(
+            new ParagraphProperties(
                 new SpacingBetweenLines { Before = "40", After = "160" },
                 new ParagraphBorders(new BottomBorder
                 {
                     Val = BorderValues.Single,
                     Size = 6,
                     Color = "5C6BC0"
-                }))));
+                })));
         body.Append(paragraph);
     }
 
     private class SectionBlock
     {
         public string Title { get; }
-        public List<EntryBlock> Entries { get; } = new();
+        public List<EntryBlock> Entries { get; set; } = new();
         public bool Hidden { get; }
 
         public SectionBlock(string title, bool hidden = false)

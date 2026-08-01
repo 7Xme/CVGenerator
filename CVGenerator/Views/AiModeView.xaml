@@ -1,6 +1,9 @@
 <UserControl x:Class="CVGenerator.Views.AiModeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
              xmlns:conv="clr-namespace:CVGenerator.Converters"
              xmlns:loc="clr-namespace:CVGenerator.Localization"
              xmlns:vm="clr-namespace:CVGenerator.ViewModels"
@@ -65,7 +68,7 @@
 
                         <TextBlock Text="{loc:Loc Ai.ApiKey}" FontSize="12" FontWeight="Bold"
                                    Margin="0,16,0,4" Foreground="#2C3E50"/>
-                        <PasswordBox x:Name="txtApiKey" Height="34"/>
+                        <PasswordBox x:Name="txtApiKey" Height="34" Loaded="txtApiKey_Loaded"/>
 
                         <Border Background="#F0F8FF" CornerRadius="8" Padding="10" Margin="0,10,0,0"
                                 Visibility="{Binding CanGeneratePpt, Converter={StaticResource BoolToVis}}">
