@@ -2,9 +2,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CVGenerator.Localization;
 using CVGenerator.Models;
 using CVGenerator.Services;
 using Microsoft.Win32;
@@ -20,6 +22,7 @@ public partial class MainViewModel : ObservableObject
     private readonly PrintService _printService;
 
     private byte[]? _currentImageBytes;
+    private PasswordBox? _apiKeyBox;
 
     public MainViewModel(GeminiOCRService ocrService, PowerPointGeneratorService pptService,
         ValidationService validationService, PrintService printService)
@@ -29,11 +32,19 @@ public partial class MainViewModel : ObservableObject
         _validationService = validationService;
         _printService = printService;
 
-        _statusMessage = "جاهز";
+        _statusMessage = LocalizationService.Instance.GetString("Ai.StatusReady");
         _isProcessing = false;
         _canGeneratePpt = false;
         _canPrint = false;
         _progressValue = 0;
+    }
+
+    public void AttachPasswordBox(PasswordBox box) => _apiKeyBox = box;
+
+    private GeminiOCRService GetOcrService()
+    {
+        var key = _apiKeyBox?.Password;
+        return string.IsNullOrWhiteSpace(key) ? _ocrService : new GeminiOCRService(key);
     }
 
     // ==================== Observable Properties ====================
@@ -145,7 +156,7 @@ public partial class MainViewModel : ObservableObject
         try
         {
             ProgressValue = 30;
-            var result = await _ocrService.ExtractCVFromImageAsync(_currentImageBytes);
+            var result = await GetOcrService().ExtractCVFromImageAsync(_currentImageBytes);
             ProgressValue = 70;
 
             if (result.CVData == null)

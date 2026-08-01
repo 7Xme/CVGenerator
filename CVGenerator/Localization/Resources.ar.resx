@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="Common.Next" xml:space="preserve">الخطوة التالية</data>
+  <data name="Common.Previous" xml:space="preserve">الخطوة السابقة</data>
+  <data name="Common.Cancel" xml:space="preserve">إلغاء</data>
+  <data name="Common.Back" xml:space="preserve">رجوع</data>
+  <data name="Common.Save" xml:space="preserve">حفظ</data>
+  <data name="Common.SaveDraft" xml:space="preserve">حفظ المسودة</data>
+  <data name="Common.LoadDraft" xml:space="preserve">تحميل المسودة</data>
+  <data name="Common.Delete" xml:space="preserve">حذف</data>
+  <data name="Common.Add" xml:space="preserve">إضافة</data>
+  <data name="Common.Yes" xml:space="preserve">نعم</data>
+  <data name="Common.No" xml:space="preserve">لا</data>
+  <data name="Common.Close" xml:space="preserve">إغلاق</data>
+
+  <data name="Language.Label" xml:space="preserve">اللغة</data>
+  <data name="Language.English" xml:space="preserve">English</data>
+  <data name="Language.French" xml:space="preserve">Français</data>
+  <data name="Language.Arabic" xml:space="preserve">العربية</data>
+
+  <data name="Landing.Title" xml:space="preserve">نظام إنشاء CV الذكي</data>
+  <data name="Landing.Subtitle" xml:space="preserve">مدعوم بتقنية Google Gemini</data>
+  <data name="Landing.AiTitle" xml:space="preserve">الإنشاء بالذكاء الاصطناعي</data>
+  <data name="Landing.AiDesc" xml:space="preserve">ارفع صورة نموذج CV مكتوب يدوياً ودع Gemini يستخرج البيانات ويصححها ويرتبها تلقائياً.</data>
+  <data name="Landing.ManualTitle" xml:space="preserve">الإنشاء اليدوي</data>
+  <data name="Landing.ManualDesc" xml:space="preserve">ابنِ سيرتك الذاتية من الصفر عبر معالج إرشادي من 3 خطوات، ثم صدّرها إلى PDF أو PowerPoint أو Word.</data>
+  <data name="Landing.LaunchAi" xml:space="preserve">ابدأ بالذكاء الاصطناعي</data>
+  <data name="Landing.LaunchManual" xml:space="preserve">ابدأ الإنشاء اليدوي</data>
+  <data name="Landing.Footer" xml:space="preserve">© 2026 نظام CV الذكي | جميع بياناتك تُعالج محلياً</data>
+
+  <data name="Wizard.Title" xml:space="preserve">منشئ CV اليدوي</data>
+  <data name="Wizard.Step1Title" xml:space="preserve">البيانات الشخصية</data>
+  <data name="Wizard.Step2Title" xml:space="preserve">خبراتي</data>
+  <data name="Wizard.Step3Title" xml:space="preserve">اختيار القالب</data>
+  <data name="Wizard.Step1Subtitle" xml:space="preserve">أخبرنا عن نفسك</data>
+  <data name="Wizard.Step2Subtitle" xml:space="preserve">أضف تعليمك وخبراتك ومهاراتك</data>
+  <data name="Wizard.Step3Subtitle" xml:space="preserve">اختر تصميماً ونزّل سيرتك الذاتية</data>
+  <data name="Wizard.Finish" xml:space="preserve">تحميل السيرة الذاتية</data>
+
+  <data name="Step1.FirstName" xml:space="preserve">الاسم الأول</data>
+  <data name="Step1.LastName" xml:space="preserve">اسم العائلة</data>
+  <data name="Step1.Required" xml:space="preserve">*</data>
+  <data name="Step1.Email" xml:space="preserve">البريد الإلكتروني</data>
+  <data name="Step1.EmailInvalid" xml:space="preserve">يرجى إدخال بريد إلكتروني صالح</data>
+  <data name="Step1.Phone" xml:space="preserve">الهاتف</data>
+  <data name="Step1.Address" xml:space="preserve">العنوان</data>
+  <data name="Step1.ZipCode" xml:space="preserve">الرمز البريدي</data>
+  <data name="Step1.City" xml:space="preserve">المدينة</data>
+  <data name="Step1.CityPlaceholder" xml:space="preserve">مثال: الدار البيضاء</data>
+  <data name="Step1.DateOfBirth" xml:space="preserve">تاريخ الميلاد</data>
+  <data name="Step1.Day" xml:space="preserve">اليوم</data>
+  <data name="Step1.Month" xml:space="preserve">الشهر</data>
+  <data name="Step1.Year" xml:space="preserve">السنة</data>
+  <data name="Step1.PlaceOfBirth" xml:space="preserve">مكان الميلاد</data>
+  <data name="Step1.DrivingLicense" xml:space="preserve">رخصة القيادة</data>
+  <data name="Step1.Gender" xml:space="preserve">الجنس</data>
+  <data name="Step1.GenderMale" xml:space="preserve">ذكر</data>
+  <data name="Step1.GenderFemale" xml:space="preserve">أنثى</data>
+  <data name="Step1.GenderNotSay" xml:space="preserve">أفضّل عدم الإفصاح</data>
+  <data name="Step1.ResumeLanguage" xml:space="preserve">لغة السيرة الذاتية</data>
+  <data name="Step1.ResumeLangEn" xml:space="preserve">English</data>
+  <data name="Step1.ResumeLangFr" xml:space="preserve">Français</data>
+  <data name="Step1.ResumeLangAr" xml:space="preserve">العربية</data>
+  <data name="Step1.PhotoDrop" xml:space="preserve">أفلت صورتك هنا أو اضغط للاختيار</data>
+  <data name="Step1.PhotoBrowse" xml:space="preserve">تصفح…</data>
+  <data name="Step1.PhotoChange" xml:space="preserve">تغيير الصورة</data>
+  <data name="Step1.ValidationFirstName" xml:space="preserve">الاسم الأول مطلوب</data>
+  <data name="Step1.ValidationLastName" xml:space="preserve">اسم العائلة مطلوب</data>
+  <data name="Step1.ValidationEmail" xml:space="preserve">البريد الإلكتروني مطلوب</data>
+
+  <data name="Step2.AddSection" xml:space="preserve">إضافة قسم إضافي</data>
+  <data name="Step2.AddLanguages" xml:space="preserve">اللغات</data>
+  <data name="Step2.AddCourses" xml:space="preserve">الدورات</data>
+  <data name="Step2.AddAchievements" xml:space="preserve">الإنجازات</data>
+  <data name="Step2.AddPublications" xml:space="preserve">المنشورات</data>
+  <data name="Step2.AddCustom" xml:space="preserve">إنشاء قسم مخصص…</data>
+  <data name="Step2.CustomTitle" xml:space="preserve">عنوان القسم</data>
+  <data name="Step2.Rename" xml:space="preserve">إعادة تسمية القسم</data>
+  <data name="Step2.HideInCv" xml:space="preserve">إخفاء من السيرة الذاتية</data>
+  <data name="Step2.ShowInCv" xml:space="preserve">إظهار في السيرة الذاتية</data>
+  <data name="Step2.Delete" xml:space="preserve">حذف القسم</data>
+  <data name="Step2.MoveUp" xml:space="preserve">تحريك للأعلى</data>
+  <data name="Step2.MoveDown" xml:space="preserve">تحريك للأسفل</data>
+  <data name="Step2.AddEntry" xml:space="preserve">إضافة</data>
+  <data name="Step2.RemoveEntry" xml:space="preserve">إزالة</data>
+  <data name="Step2.CurrentlyWorking" xml:space="preserve">ما زلت أعمل هنا</data>
+  <data name="Step2.Period" xml:space="preserve">الفترة</data>
+  <data name="Step2.JobTitle" xml:space="preserve">المسمى الوظيفي</data>
+  <data name="Step2.Employer" xml:space="preserve">جهة العمل</data>
+  <data name="Step2.City" xml:space="preserve">المدينة</data>
+  <data name="Step2.Description" xml:space="preserve">الوصف</data>
+  <data name="Step2.Institution" xml:space="preserve">المؤسسة</data>
+  <data name="Step2.Degree" xml:space="preserve">الشهادة</data>
+  <data name="Step2.FieldOfStudy" xml:space="preserve">التخصص</data>
+  <data name="Step2.Name" xml:space="preserve">الاسم</data>
+  <data name="Step2.Company" xml:space="preserve">الشركة</data>
+  <data name="Step2.Phone" xml:space="preserve">الهاتف</data>
+  <data name="Step2.Email" xml:space="preserve">البريد الإلكتروني</data>
+  <data name="Step2.Skill" xml:space="preserve">المهارة</data>
+  <data name="Step2.Proficiency" xml:space="preserve">المستوى</data>
+  <data name="Step2.Level" xml:space="preserve">المستوى</data>
+  <data name="Step2.Title" xml:space="preserve">العنوان</data>
+  <data name="Step2.Date" xml:space="preserve">التاريخ</data>
+  <data name="Step2.Publisher" xml:space="preserve">الناشر</data>
+  <data name="Step2.Url" xml:space="preserve">الرابط</data>
+  <data name="Step2.ObjectivePlaceholder" xml:space="preserve">اكتب ملخصاً احترافياً قصيراً…</data>
+  <data name="Step2.Tips" xml:space="preserve">نصائح</data>
+  <data name="Step2.Save" xml:space="preserve">حفظ</data>
+  <data name="Step2.SkillLevelBeginner" xml:space="preserve">مبتدئ</data>
+  <data name="Step2.SkillLevelIntermediate" xml:space="preserve">متوسط</data>
+  <data name="Step2.SkillLevelAdvanced" xml:space="preserve">متقدم</data>
+  <data name="Step2.SkillLevelExpert" xml:space="preserve">خبير</data>
+  <data name="Step2.SkillLevelNative" xml:space="preserve">اللغة الأم</data>
+  <data name="Step2.TipsObjectiveTitle" xml:space="preserve">نصائح لكتابة الهدف الوظيفي</data>
+  <data name="Step2.TipsObjectiveBody" xml:space="preserve">• اجعله بين 2 و4 جمل.
+• اذكر مستوى خبرتك ومجالك الرئيسي.
+• أبرز نقطتي قوة أو ثلاث.
+• اختم بما تقدمه للمنصب الجديد.
+• تجنب العبارات العامة بلا دليل.</data>
+
+  <data name="Section.Objective" xml:space="preserve">الهدف الوظيفي</data>
+  <data name="Section.WorkExperience" xml:space="preserve">الخبرات العملية</data>
+  <data name="Section.Education" xml:space="preserve">التعليم والمؤهلات</data>
+  <data name="Section.Interests" xml:space="preserve">الاهتمامات</data>
+  <data name="Section.References" xml:space="preserve">المراجع</data>
+  <data name="Section.Skills" xml:space="preserve">المهارات</data>
+  <data name="Section.Languages" xml:space="preserve">اللغات</data>
+  <data name="Section.Courses" xml:space="preserve">الدورات</data>
+  <data name="Section.Achievements" xml:space="preserve">الإنجازات</data>
+  <data name="Section.Publications" xml:space="preserve">المنشورات</data>
+
+  <data name="Step3.Download" xml:space="preserve">تحميل السيرة الذاتية</data>
+  <data name="Step3.ExportPdf" xml:space="preserve">PDF</data>
+  <data name="Step3.ExportPpt" xml:space="preserve">PowerPoint</data>
+  <data name="Step3.ExportDocx" xml:space="preserve">Word</data>
+  <data name="Step3.Selected" xml:space="preserve">محدد</data>
+
+  <data name="Ai.Title" xml:space="preserve">نظام إنشاء CV الذكي</data>
+  <data name="Ai.Subtitle" xml:space="preserve">مدعوم بتقنية Google Gemini</data>
+  <data name="Ai.ImagePrompt" xml:space="preserve">صورة النموذج اليدوي:</data>
+  <data name="Ai.DropHint" xml:space="preserve">اسحب الصورة هنا أو اضغط للاختيار</data>
+  <data name="Ai.Formats" xml:space="preserve">JPG, PNG, BMP, TIFF</data>
+  <data name="Ai.Browse" xml:space="preserve">اختيار ملف</data>
+  <data name="Ai.ApiKey" xml:space="preserve">مفتاح Gemini API:</data>
+  <data name="Ai.Confidence" xml:space="preserve">نسبة الثقة في الاستخراج:</data>
+  <data name="Ai.StatusReady" xml:space="preserve">جاهز</data>
+  <data name="Ai.Warnings" xml:space="preserve">تحذيرات</data>
+  <data name="Ai.Process" xml:space="preserve">معالجة الصورة واستخراج البيانات</data>
+  <data name="Ai.GeneratePpt" xml:space="preserve">إنشاء PowerPoint</data>
+  <data name="Ai.PrintPreview" xml:space="preserve">معاينة / طباعة</data>
+  <data name="Ai.Print" xml:space="preserve">طباعة</data>
+  <data name="Ai.SampleData" xml:space="preserve">تحميل بيانات تجريبية</data>
+  <data name="Ai.ExportJson" xml:space="preserve">تصدير JSON</data>
+  <data name="Ai.Clear" xml:space="preserve">مسح الكل</data>
+  <data name="Ai.Extracted" xml:space="preserve">البيانات المستخرجة (قابلة للتعديل):</data>
+  <data name="Ai.TabPersonal" xml:space="preserve">معلومات شخصية</data>
+  <data name="Ai.TabEducation" xml:space="preserve">التعليم</data>
+  <data name="Ai.TabExperience" xml:space="preserve">الخبرات</data>
+  <data name="Ai.TabSkills" xml:space="preserve">المهارات</data>
+  <data name="Ai.TabLanguages" xml:space="preserve">اللغات</data>
+  <data name="Ai.Footer" xml:space="preserve">© 2026 نظام CV الذكي | جميع البيانات تُعالج محلياً</data>
+  <data name="Ai.FullName" xml:space="preserve">الاسم الكامل:</data>
+  <data name="Ai.FullNameLatin" xml:space="preserve">الاسم باللاتينية:</data>
+  <data name="Ai.Phone1" xml:space="preserve">الهاتف 1:</data>
+  <data name="Ai.Phone2" xml:space="preserve">الهاتف 2:</data>
+  <data name="Ai.Email" xml:space="preserve">البريد الإلكتروني:</data>
+  <data name="Ai.NationalId" xml:space="preserve">رقم البطاقة الوطنية:</data>
+  <data name="Ai.License" xml:space="preserve">رخصة السياقة:</data>
+  <data name="Ai.Address" xml:space="preserve">العنوان:</data>
+  <data name="Ai.Summary" xml:space="preserve">نبذة تعريفية:</data>
+  <data name="Ai.Degree" xml:space="preserve">الشهادة</data>
+  <data name="Ai.Institution" xml:space="preserve">المؤسسة</data>
+  <data name="Ai.Year" xml:space="preserve">السنة</data>
+  <data name="Ai.Mention" xml:space="preserve">الميزة</data>
+  <data name="Ai.Company" xml:space="preserve">الشركة</data>
+  <data name="Ai.Position" xml:space="preserve">المنصب</data>
+  <data name="Ai.From" xml:space="preserve">من</data>
+  <data name="Ai.To" xml:space="preserve">إلى</data>
+  <data name="Ai.SkillName" xml:space="preserve">المهارة</data>
+  <data name="Ai.Level" xml:space="preserve">المستوى</data>
+
+  <data name="Status.DraftPrompt" xml:space="preserve">لديك مسودة غير محفوظة من جلسة سابقة. هل تريد استئنافها؟</data>
+  <data name="Status.DraftResumed" xml:space="preserve">تم تحميل المسودة بنجاح</data>
+  <data name="Status.Saved" xml:space="preserve">تم حفظ المسودة</data>
+  <data name="Status.PdfDone" xml:space="preserve">تم إنشاء PDF: {0}</data>
+  <data name="Status.PptDone" xml:space="preserve">تم إنشاء PowerPoint: {0}</data>
+  <data name="Status.DocxDone" xml:space="preserve">تم إنشاء مستند Word: {0}</data>
+  <data name="Status.NoDraft" xml:space="preserve">لا توجد مسودة محفوظة</data>
+</root>

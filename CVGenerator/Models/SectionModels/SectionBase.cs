@@ -35,35 +35,3 @@ public abstract partial class SectionBase : ObservableObject
     [ObservableProperty]
     private int _displayOrder;
 }
-
-public partial class ObjectiveSection : SectionBase
-{
-    [ObservableProperty]
-    private string _content = string.Empty;
-
-    public ObjectiveSection()
-    {
-        Kind = SectionKind.ResumeObjective;
-    }
-}
-
-public partial class InterestsSection : SectionBase
-{
-    public ObservableCollection<string> Tags { get; set; } = new();
-
-    public InterestsSection()
-    {
-        Kind = SectionKind.Interests;
-    }
-}
-
-public partial class CustomSection : SectionBase
-{
-    [ObservableProperty]
-    private string _content = string.Empty;
-
-    public CustomSection()
-    {
-        Kind = SectionKind.Custom;
-    }
-}

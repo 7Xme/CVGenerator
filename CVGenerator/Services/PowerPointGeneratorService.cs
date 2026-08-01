@@ -4,6 +4,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Presentation;
 using A = DocumentFormat.OpenXml.Drawing;
 using CVGenerator.Models;
+using CVGenerator.Templates;
 using Serilog;
 
 namespace CVGenerator.Services;
@@ -15,6 +16,8 @@ public class PowerPointGeneratorService
     private const string PlaceholderPrefix = "{{";
     private const string PlaceholderSuffix = "}}";
 
+    public string? LastOutputPath { get; private set; }
+
     public PowerPointGeneratorService(string? templatePath = null, string? outputDirectory = null)
     {
         _templatePath = templatePath;
@@ -23,11 +26,18 @@ public class PowerPointGeneratorService
     }
 
     public string GenerateCV(CVData data, string? outputFileName = null)
+        => GenerateCV(data, outputFileName, null);
+
+    public string GenerateCV(CVData data, string? outputFileName, string? templateKey)
     {
         if (data == null)
             throw new ArgumentNullException(nameof(data));
 
-        outputFileName ??= $"CV_{SanitizeFileName(data.PersonalInfo.FullName)}_{DateTime.Now:yyyyMMdd_HHmmss}.pptx";
+        var template = string.IsNullOrEmpty(templateKey)
+            ? TemplateCatalog.Default
+            : TemplateCatalog.All.FirstOrDefault(t => t.Key == templateKey) ?? TemplateCatalog.Default;
+
+        outputFileName ??= $"CV_{SanitizeFileName(data.PersonalInfo.DisplayFullName)}_{DateTime.Now:yyyyMMdd_HHmmss}.pptx";
         var outputPath = Path.Combine(_outputDirectory, outputFileName);
 
         try
@@ -40,11 +50,12 @@ public class PowerPointGeneratorService
             }
             else
             {
-                Log.Information("Creating presentation from scratch");
-                CreateFromScratch(data, outputPath);
+                Log.Information("Creating presentation from scratch (template: {Template})", template.Name);
+                CreateFromScratch(data, outputPath, template);
             }
 
             Log.Information("PPTX generated: {Path}", outputPath);
+            LastOutputPath = outputPath;
             return outputPath;
         }
         catch (Exception ex)
@@ -112,7 +123,7 @@ public class PowerPointGeneratorService
             .Replace("{{SUMMARY}}", data.Summary);
     }
 
-    private static void CreateFromScratch(CVData data, string outputPath)
+    private static void CreateFromScratch(CVData data, string outputPath, TemplateDefinition template)
     {
         using var presentation = PresentationDocument.Create(outputPath, PresentationDocumentType.Presentation);
         var presPart = presentation.AddPresentationPart();
@@ -120,7 +131,7 @@ public class PowerPointGeneratorService
 
         var slideIdList = new SlideIdList();
 
-        SlidePart slidePart = CreateSlide(presPart, data);
+        SlidePart slidePart = CreateSlide(presPart, data, template);
 
         var slideId = new SlideId
         {
@@ -133,7 +144,7 @@ public class PowerPointGeneratorService
         presPart.Presentation.Save();
     }
 
-    private static SlidePart CreateSlide(PresentationPart presPart, CVData data)
+    private static SlidePart CreateSlide(PresentationPart presPart, CVData data, TemplateDefinition template)
     {
         SlidePart slidePart = presPart.AddNewPart<SlidePart>();
 
@@ -151,39 +162,40 @@ public class PowerPointGeneratorService
 
         double yPos = 10.0;
 
-        yPos = AddTitleSection(shapeTree, data, yPos);
-        yPos = AddSummarySection(shapeTree, data, yPos);
-        yPos = AddEducationSection(shapeTree, data, yPos);
-        yPos = AddExperienceSection(shapeTree, data, yPos);
-        yPos = AddSkillsSection(shapeTree, data, yPos);
-        AddLanguagesSection(shapeTree, data, yPos);
+        yPos = AddTitleSection(shapeTree, data, yPos, template);
+        yPos = AddSummarySection(shapeTree, data, yPos, template);
+        yPos = AddEducationSection(shapeTree, data, yPos, template);
+        yPos = AddExperienceSection(shapeTree, data, yPos, template);
+        yPos = AddSkillsSection(shapeTree, data, yPos, template);
+        AddLanguagesSection(shapeTree, data, yPos, template);
 
         slide.Save();
         return slidePart;
     }
 
-    private static double AddTitleSection(ShapeTree shapeTree, CVData data, double yPos)
+    private static double AddTitleSection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         var pi = data.PersonalInfo;
+        string primary = template.PrimaryColor.TrimStart('#');
 
-        AddTextBox(shapeTree, pi.FullName, yPos, 0.5, 9.0, 1.0, "2C3E50", 28, true, A.TextAlignmentTypeValues.Center);
+        AddTextBox(shapeTree, pi.DisplayFullName, yPos, 0.5, 9.0, 1.0, primary, 28, true, A.TextAlignmentTypeValues.Center);
         yPos += 1.2;
 
-        AddTextBox(shapeTree, $"📧 {pi.Email}  |  📞 {pi.PhonePrimary}  |  📍 {pi.Address}",
+        AddTextBox(shapeTree, $"📧 {pi.Email}  |  📞 {pi.PhonePrimary}  |  📍 {pi.City}",
             yPos, 0.5, 9.0, 0.5, "7F8C8D", 12, false, A.TextAlignmentTypeValues.Center);
         yPos += 0.7;
 
-        AddLineSeparator(shapeTree, yPos);
+        AddLineSeparator(shapeTree, yPos, primary);
         yPos += 0.3;
 
         return yPos;
     }
 
-    private static double AddSummarySection(ShapeTree shapeTree, CVData data, double yPos)
+    private static double AddSummarySection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         if (string.IsNullOrWhiteSpace(data.Summary)) return yPos;
 
-        AddTextBox(shapeTree, "🎯 ملخص", yPos, 0.5, 9.0, 0.4, "2C3E50", 16, true, A.TextAlignmentTypeValues.Left);
+        AddTextBox(shapeTree, "🎯 Objective", yPos, 0.5, 9.0, 0.4, template.SecondaryColor.TrimStart('#'), 16, true, A.TextAlignmentTypeValues.Left);
         yPos += 0.5;
 
         AddTextBox(shapeTree, data.Summary, yPos, 0.5, 9.0, 0.6, "34495E", 11, false, A.TextAlignmentTypeValues.Left);
@@ -192,16 +204,16 @@ public class PowerPointGeneratorService
         return yPos;
     }
 
-    private static double AddEducationSection(ShapeTree shapeTree, CVData data, double yPos)
+    private static double AddEducationSection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         if (data.Education.Count == 0) return yPos;
 
-        AddTextBox(shapeTree, "🎓 التعليم", yPos, 0.5, 9.0, 0.4, "2C3E50", 16, true, A.TextAlignmentTypeValues.Left);
+        AddTextBox(shapeTree, "🎓 Education", yPos, 0.5, 9.0, 0.4, template.SecondaryColor.TrimStart('#'), 16, true, A.TextAlignmentTypeValues.Left);
         yPos += 0.5;
 
         foreach (var edu in data.Education)
         {
-            string text = $"{edu.Degree} - {edu.Institution} ({edu.Year})";
+            string text = $"{edu.Degree} - {edu.Institution} ({edu.EndYear})";
             if (!string.IsNullOrEmpty(edu.Mention))
                 text += $" | {edu.Mention}";
 
@@ -213,11 +225,11 @@ public class PowerPointGeneratorService
         return yPos;
     }
 
-    private static double AddExperienceSection(ShapeTree shapeTree, CVData data, double yPos)
+    private static double AddExperienceSection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         if (data.Experience.Count == 0) return yPos;
 
-        AddTextBox(shapeTree, "💼 الخبرات العملية", yPos, 0.5, 9.0, 0.4, "2C3E50", 16, true, A.TextAlignmentTypeValues.Left);
+        AddTextBox(shapeTree, "💼 Work Experience", yPos, 0.5, 9.0, 0.4, template.SecondaryColor.TrimStart('#'), 16, true, A.TextAlignmentTypeValues.Left);
         yPos += 0.5;
 
         foreach (var exp in data.Experience)
@@ -237,11 +249,11 @@ public class PowerPointGeneratorService
         return yPos;
     }
 
-    private static double AddSkillsSection(ShapeTree shapeTree, CVData data, double yPos)
+    private static double AddSkillsSection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         if (data.Skills.Count == 0) return yPos;
 
-        AddTextBox(shapeTree, "🛠️ المهارات", yPos, 0.5, 9.0, 0.4, "2C3E50", 16, true, A.TextAlignmentTypeValues.Left);
+        AddTextBox(shapeTree, "🛠️ Skills", yPos, 0.5, 9.0, 0.4, template.SecondaryColor.TrimStart('#'), 16, true, A.TextAlignmentTypeValues.Left);
         yPos += 0.5;
 
         var skillsText = string.Join("  |  ", data.Skills.Select(s =>
@@ -253,11 +265,11 @@ public class PowerPointGeneratorService
         return yPos;
     }
 
-    private static void AddLanguagesSection(ShapeTree shapeTree, CVData data, double yPos)
+    private static void AddLanguagesSection(ShapeTree shapeTree, CVData data, double yPos, TemplateDefinition template)
     {
         if (data.Languages.Count == 0) return;
 
-        AddTextBox(shapeTree, "🌍 اللغات", yPos, 0.5, 9.0, 0.4, "2C3E50", 16, true, A.TextAlignmentTypeValues.Left);
+        AddTextBox(shapeTree, "🌍 Languages", yPos, 0.5, 9.0, 0.4, template.SecondaryColor.TrimStart('#'), 16, true, A.TextAlignmentTypeValues.Left);
         yPos += 0.5;
 
         var langsText = string.Join("  |  ", data.Languages.Select(l =>
@@ -304,7 +316,7 @@ public class PowerPointGeneratorService
         shapeTree.Append(shape);
     }
 
-    private static void AddLineSeparator(ShapeTree shapeTree, double yPos)
+    private static void AddLineSeparator(ShapeTree shapeTree, double yPos, string colorHex)
     {
         var transform = new A.Transform2D(
             new A.Offset { X = Inches(0.5) },
@@ -313,7 +325,7 @@ public class PowerPointGeneratorService
 
         var shape = new Shape(
             new ShapeProperties(transform,
-                new A.SolidFill { RgbColorModelHex = new A.RgbColorModelHex { Val = "BDC3C7" } },
+                new A.SolidFill { RgbColorModelHex = new A.RgbColorModelHex { Val = colorHex } },
                 new A.PresetGeometry { Preset = A.ShapeTypeValues.Rectangle })
         );
 
