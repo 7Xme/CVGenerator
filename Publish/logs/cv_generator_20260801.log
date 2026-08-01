@@ -31,3 +31,30 @@ System.InvalidOperationException: فشل الاتصال بـ Gemini API: Respons
    at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType)
    at CVGenerator.ViewModels.MainViewModel.ProcessImage()
 2026-08-01 12:29:17.646 +01:00 [INF] === CV Generator Shutting Down ===
+2026-08-01 13:20:46.749 +01:00 [INF] === CV Generator Starting ===
+2026-08-01 13:20:47.845 +01:00 [INF] Configuration loaded. Model: gemini-1.5-pro, Output: Output
+2026-08-01 13:21:23.112 +01:00 [INF] Draft saved at "2026-08-01T13:21:23.1127038+01:00"
+2026-08-01 13:21:30.617 +01:00 [INF] Draft saved at "2026-08-01T13:21:30.6171395+01:00"
+2026-08-01 13:21:49.737 +01:00 [INF] Image loaded: C:\Users\Jaklin\Desktop\Screenshot 2026-08-01 122832.png
+2026-08-01 13:21:51.676 +01:00 [INF] Starting OCR extraction from image (284579 bytes)
+2026-08-01 13:21:51.718 +01:00 [INF] Sending request to Gemini API...
+2026-08-01 13:21:53.132 +01:00 [INF] Draft saved at "2026-08-01T13:21:53.1322619+01:00"
+2026-08-01 13:21:59.020 +01:00 [ERR] HTTP error communicating with Gemini API
+System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType) in D:\githubprojects\cv maker\CVGenerator\CVGenerator\Services\GeminiOCRService.cs:line 68
+2026-08-01 13:21:59.034 +01:00 [ERR] Image processing failed
+System.InvalidOperationException: فشل الاتصال بـ Gemini API: Response status code does not indicate success: 400 (Bad Request).
+ ---> System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType) in D:\githubprojects\cv maker\CVGenerator\CVGenerator\Services\GeminiOCRService.cs:line 68
+   --- End of inner exception stack trace ---
+   at CVGenerator.Services.GeminiOCRService.ExtractCVFromImageAsync(Byte[] imageBytes, String mimeType) in D:\githubprojects\cv maker\CVGenerator\CVGenerator\Services\GeminiOCRService.cs:line 79
+   at CVGenerator.ViewModels.MainViewModel.ProcessImage() in D:\githubprojects\cv maker\CVGenerator\CVGenerator\ViewModels\MainViewModel.cs:line 159
+2026-08-01 13:22:00.853 +01:00 [INF] === CV Generator Shutting Down ===
+2026-08-01 13:35:47.314 +01:00 [INF] === CV Generator Starting ===
+2026-08-01 13:35:47.430 +01:00 [INF] Configuration loaded. Model: gemini-1.5-pro, Output: Output
+2026-08-01 13:36:20.188 +01:00 [INF] Draft saved at "2026-08-01T13:36:20.1877268+01:00"
+2026-08-01 13:36:50.272 +01:00 [INF] Draft saved at "2026-08-01T13:36:50.2720655+01:00"
+2026-08-01 13:37:00.584 +01:00 [INF] Draft saved at "2026-08-01T13:37:00.5841764+01:00"
+2026-08-01 13:37:02.657 +01:00 [INF] === CV Generator Shutting Down ===

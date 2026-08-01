@@ -56,8 +56,8 @@
                         <Run Text="{loc:Loc Step1.FirstName}"/>
                         <Run Text="{loc:Loc Step1.Required}" Foreground="#E74C3C"/>
                     </TextBlock>
-                    <TextBox Text="{Binding PersonalInfo.FirstName, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,2"/>
+                    <TextBox x:Name="FirstNameBox" Text="{Binding PersonalInfo.FirstName, UpdateSourceTrigger=PropertyChanged}"
+                             Height="34" Margin="0,3,0,2" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.ValidationFirstName}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidFirstName, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>
@@ -66,8 +66,8 @@
                         <Run Text="{loc:Loc Step1.LastName}"/>
                         <Run Text="{loc:Loc Step1.Required}" Foreground="#E74C3C"/>
                     </TextBlock>
-                    <TextBox Text="{Binding PersonalInfo.LastName, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,2"/>
+                    <TextBox x:Name="LastNameBox" Text="{Binding PersonalInfo.LastName, UpdateSourceTrigger=PropertyChanged}"
+                             Height="34" Margin="0,3,0,2" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.ValidationLastName}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidLastName, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>
@@ -124,8 +124,8 @@
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{loc:Loc Step1.Email}" FontSize="12" Foreground="#2C3E50"/>
-                    <TextBox Text="{Binding PersonalInfo.Email, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                    <TextBox x:Name="EmailBox" Text="{Binding PersonalInfo.Email, UpdateSourceTrigger=PropertyChanged}"
+                             Height="34" Margin="0,3,0,0" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.EmailInvalid}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidEmail, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>

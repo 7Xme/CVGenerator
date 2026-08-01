@@ -19,4 +19,9 @@ public partial class Step1PersonalView : UserControl
     {
         ViewModel.BrowsePhotoCommand.Execute(null);
     }
+
+    private void RequiredField_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        ViewModel.ValidateAll();
+    }
 }

@@ -1,0 +1,3 @@
+*.exe
+/CVGenerator/bin
+/CVGenerator.Tests/bin
