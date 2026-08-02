@@ -6,31 +6,38 @@ namespace CVGenerator.Converters;
 
 public class BoolToVisibilityConverter : IValueConverter
 {
-    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public virtual object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is bool boolValue)
-            return boolValue ? Visibility.Visible : Visibility.Collapsed;
-        return Visibility.Collapsed;
+        return ToBool(value) ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public virtual object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is Visibility visibility)
             return visibility == Visibility.Visible;
         return false;
     }
+
+    protected static bool ToBool(object? value)
+    {
+        return value switch
+        {
+            bool b => b,
+            string s => !string.IsNullOrWhiteSpace(s),
+            null => false,
+            _ => true
+        };
+    }
 }
 
-public class InverseBoolToVisibilityConverter : IValueConverter
+public class InverseBoolToVisibilityConverter : BoolToVisibilityConverter
 {
-    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public override object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is bool boolValue)
-            return boolValue ? Visibility.Collapsed : Visibility.Visible;
-        return Visibility.Visible;
+        return ToBool(value) ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public override object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is Visibility visibility)
             return visibility != Visibility.Visible;

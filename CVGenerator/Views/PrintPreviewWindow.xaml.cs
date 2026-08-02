@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using CVGenerator.Localization;
 using Serilog;
 
 namespace CVGenerator.Views;
@@ -21,11 +22,15 @@ public partial class PrintPreviewWindow : Window
         try
         {
             await webView.EnsureCoreWebView2Async();
+            var loc = LocalizationService.Instance;
+            var title = loc.GetString("PrintPreview.Title");
+            var body = loc.GetString("PrintPreview.Body");
+            var dir = loc.WindowFlowDirection == FlowDirection.RightToLeft ? "rtl" : "ltr";
             webView.CoreWebView2.NavigateToString(
-                "<html dir='rtl'><body style='font-family: Segoe UI; text-align: center; padding-top: 100px; color: #7F8C8D;'>" +
-                "<h2>📊 معاينة PowerPoint</h2>" +
-                "<p>لفتح الملف في PowerPoint، اضغط على الزر أدناه.</p>" +
-                "<p style='font-size: 12px; color: #BDC3C7;'>" + Path.GetFileName(_pptxPath) + "</p>" +
+                $"<html dir='{dir}'><body style='font-family: Segoe UI; text-align: center; padding-top: 100px; color: #7F8C8D;'>" +
+                $"<h2>📊 {title}</h2>" +
+                $"<p>{body}</p>" +
+                $"<p style='font-size: 12px; color: #BDC3C7;'>{Path.GetFileName(_pptxPath)}</p>" +
                 "</body></html>");
         }
         catch (Exception ex)
@@ -51,7 +56,9 @@ public partial class PrintPreviewWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"فشلت الطباعة: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+            var loc = LocalizationService.Instance;
+            var msg = string.Format(loc.GetString("PrintPreview.PrintError"), ex.Message);
+            MessageBox.Show(msg, loc.GetString("PrintPreview.PrintErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -68,7 +75,9 @@ public partial class PrintPreviewWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"فشل الفتح: {ex.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
+            var loc = LocalizationService.Instance;
+            var msg = string.Format(loc.GetString("PrintPreview.OpenError"), ex.Message);
+            MessageBox.Show(msg, loc.GetString("PrintPreview.PrintErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

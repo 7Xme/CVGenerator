@@ -81,6 +81,7 @@
   <data name="Step2.AddCustom" xml:space="preserve">Créer une section personnalisée…</data>
   <data name="Step2.CustomTitle" xml:space="preserve">Titre de la section</data>
   <data name="Step2.Rename" xml:space="preserve">Renommer la section</data>
+  <data name="Step2.Collapse" xml:space="preserve">Replier / déplier la section</data>
   <data name="Step2.HideInCv" xml:space="preserve">Masquer dans le CV final</data>
   <data name="Step2.ShowInCv" xml:space="preserve">Afficher dans le CV final</data>
   <data name="Step2.Delete" xml:space="preserve">Supprimer la section</data>
@@ -135,6 +136,7 @@
   <data name="Section.Publications" xml:space="preserve">Publications</data>
 
   <data name="Step3.Download" xml:space="preserve">Télécharger le CV</data>
+  <data name="Step3.ResumeLanguage" xml:space="preserve">Langue du CV</data>
   <data name="Step3.ExportPdf" xml:space="preserve">PDF</data>
   <data name="Step3.ExportPpt" xml:space="preserve">PowerPoint</data>
   <data name="Step3.ExportDocx" xml:space="preserve">Word</data>
@@ -191,4 +193,13 @@
   <data name="Status.PptDone" xml:space="preserve">PowerPoint généré : {0}</data>
   <data name="Status.DocxDone" xml:space="preserve">Document Word généré : {0}</data>
   <data name="Status.NoDraft" xml:space="preserve">Aucun brouillon trouvé</data>
+
+  <data name="PrintPreview.Title" xml:space="preserve">Aperçu PowerPoint</data>
+  <data name="PrintPreview.Print" xml:space="preserve">Imprimer</data>
+  <data name="PrintPreview.OpenInPPT" xml:space="preserve">Ouvrir dans PowerPoint</data>
+  <data name="PrintPreview.Close" xml:space="preserve">Fermer</data>
+  <data name="PrintPreview.Body" xml:space="preserve">Pour ouvrir le fichier dans PowerPoint, appuyez sur le bouton ci-dessous.</data>
+  <data name="PrintPreview.PrintErrorTitle" xml:space="preserve">Erreur</data>
+  <data name="PrintPreview.PrintError" xml:space="preserve">Échec de l'impression : {0}</data>
+  <data name="PrintPreview.OpenError" xml:space="preserve">Impossible d'ouvrir le fichier : {0}</data>
 </root>

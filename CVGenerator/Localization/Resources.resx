@@ -81,6 +81,7 @@
   <data name="Step2.AddCustom" xml:space="preserve">Create custom section…</data>
   <data name="Step2.CustomTitle" xml:space="preserve">Section title</data>
   <data name="Step2.Rename" xml:space="preserve">Rename section</data>
+  <data name="Step2.Collapse" xml:space="preserve">Collapse / expand section</data>
   <data name="Step2.HideInCv" xml:space="preserve">Hide in final CV</data>
   <data name="Step2.ShowInCv" xml:space="preserve">Show in final CV</data>
   <data name="Step2.Delete" xml:space="preserve">Delete section</data>
@@ -135,6 +136,7 @@
   <data name="Section.Publications" xml:space="preserve">Publications</data>
 
   <data name="Step3.Download" xml:space="preserve">Download Resume</data>
+  <data name="Step3.ResumeLanguage" xml:space="preserve">Resume language</data>
   <data name="Step3.ExportPdf" xml:space="preserve">PDF</data>
   <data name="Step3.ExportPpt" xml:space="preserve">PowerPoint</data>
   <data name="Step3.ExportDocx" xml:space="preserve">Word</data>
@@ -191,4 +193,13 @@
   <data name="Status.PptDone" xml:space="preserve">PowerPoint generated: {0}</data>
   <data name="Status.DocxDone" xml:space="preserve">Word document generated: {0}</data>
   <data name="Status.NoDraft" xml:space="preserve">No saved draft found</data>
+
+  <data name="PrintPreview.Title" xml:space="preserve">PowerPoint Preview</data>
+  <data name="PrintPreview.Print" xml:space="preserve">Print</data>
+  <data name="PrintPreview.OpenInPPT" xml:space="preserve">Open in PowerPoint</data>
+  <data name="PrintPreview.Close" xml:space="preserve">Close</data>
+  <data name="PrintPreview.Body" xml:space="preserve">To open the file in PowerPoint, press the button below.</data>
+  <data name="PrintPreview.PrintErrorTitle" xml:space="preserve">Error</data>
+  <data name="PrintPreview.PrintError" xml:space="preserve">Print failed: {0}</data>
+  <data name="PrintPreview.OpenError" xml:space="preserve">Could not open file: {0}</data>
 </root>

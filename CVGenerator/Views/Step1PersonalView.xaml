@@ -7,45 +7,55 @@
              xmlns:loc="clr-namespace:CVGenerator.Localization"
              xmlns:vm="clr-namespace:CVGenerator.ViewModels"
              xmlns:conv="clr-namespace:CVGenerator.Converters"
-             d:DataContext="{d:DesignInstance Type=vm:Step1PersonalViewModel}">
+             d:DataContext="{d:DesignInstance Type=vm:Step1PersonalViewModel}"
+             FlowDirection="{Binding WindowFlowDirection, Source={x:Static loc:LocalizationService.Instance}}">
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVis"/>
+        <conv:StringToImageSourceConverter x:Key="ImgSrc"/>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24">
-        <StackPanel>
+        <StackPanel MaxWidth="900" HorizontalAlignment="Center">
+
             <TextBlock Text="{loc:Loc Wizard.Step1Title}" FontSize="20" FontWeight="Bold" Foreground="#2C3E50"/>
             <TextBlock Text="{loc:Loc Wizard.Step1Subtitle}" FontSize="13" Foreground="#7F8C8D" Margin="0,4,0,18"/>
 
             <!-- Photo -->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Width="130" Height="160" CornerRadius="8" BorderBrush="#BDC3C7" BorderThickness="1"
+                <Border Width="132" Height="164" CornerRadius="10" BorderBrush="#BDC3C7" BorderThickness="1"
                         Background="#F8F9FA" VerticalAlignment="Top" Cursor="Hand"
-                        MouseLeftButtonDown="PhotoArea_Click">
+                        AllowDrop="True"
+                        MouseLeftButtonDown="PhotoArea_Click"
+                        DragOver="PhotoArea_DragOver"
+                        Drop="PhotoArea_Drop">
                     <Grid>
-                        <StackPanel x:Name="photoPlaceholder" VerticalAlignment="Center" HorizontalAlignment="Center"
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                                     Visibility="{Binding HasPhoto, Converter={StaticResource InverseBoolToVis}, FallbackValue=Visible}">
                             <TextBlock Text="📷" FontSize="38" HorizontalAlignment="Center"/>
                             <TextBlock Text="{loc:Loc Step1.PhotoDrop}" FontSize="10" Foreground="#7F8C8D"
-                                       TextWrapping="Wrap" TextAlignment="Center" Margin="8,6,8,0"/>
+                                       TextWrapping="Wrap" TextAlignment="Center" Margin="10,6,10,0"/>
                         </StackPanel>
-                        <Image Source="{Binding PhotoPreviewPath}" Stretch="UniformToFill"
+                        <Image Source="{Binding PhotoPreviewPath, Converter={StaticResource ImgSrc}}" Stretch="UniformToFill"
                                Visibility="{Binding HasPhoto, Converter={StaticResource BoolToVis}}"/>
                     </Grid>
                 </Border>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0,0,0">
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0">
                     <Button Content="{loc:Loc Step1.PhotoBrowse}" Width="140" Height="32"
                             Background="#3498DB" Foreground="White" FontSize="11"
                             Command="{Binding BrowsePhotoCommand}" HorizontalAlignment="Left"/>
+                    <Button Content="{loc:Loc Step1.PhotoChange}" Width="140" Height="32" Margin="0,8,0,0"
+                            Background="#95A5A6" Foreground="White" FontSize="11"
+                            Command="{Binding BrowsePhotoCommand}" HorizontalAlignment="Left"
+                            Visibility="{Binding HasPhoto, Converter={StaticResource BoolToVis}}"/>
                 </StackPanel>
             </Grid>
 
             <!-- Name -->
-            <Grid Margin="0,18,0,0">
+            <Grid Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -57,7 +67,7 @@
                         <Run Text="{loc:Loc Step1.Required}" Foreground="#E74C3C"/>
                     </TextBlock>
                     <TextBox x:Name="FirstNameBox" Text="{Binding PersonalInfo.FirstName, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,2" TextChanged="RequiredField_TextChanged"/>
+                             Height="34" Margin="0,4,0,2" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.ValidationFirstName}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidFirstName, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>
@@ -67,32 +77,32 @@
                         <Run Text="{loc:Loc Step1.Required}" Foreground="#E74C3C"/>
                     </TextBlock>
                     <TextBox x:Name="LastNameBox" Text="{Binding PersonalInfo.LastName, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,2" TextChanged="RequiredField_TextChanged"/>
+                             Height="34" Margin="0,4,0,2" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.ValidationLastName}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidLastName, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>
             </Grid>
 
             <!-- Birth date -->
-            <StackPanel Margin="0,14,0,0">
+            <StackPanel Margin="0,16,0,0">
                 <TextBlock Text="{loc:Loc Step1.DateOfBirth}" FontSize="12" Foreground="#2C3E50"/>
-                <Grid Margin="0,3,0,0">
+                <Grid Margin="0,4,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" ItemsSource="{Binding Days}" SelectedItem="{Binding SelectedDay}"
-                              Height="34" Margin="0,0,4,0"/>
+                              Height="34" Margin="0,0,4,0" ToolTip="{loc:Loc Step1.Day}"/>
                     <ComboBox Grid.Column="1" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}"
-                              Height="34" Margin="4,0"/>
+                              Height="34" Margin="4,0" ToolTip="{loc:Loc Step1.Month}"/>
                     <ComboBox Grid.Column="2" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}"
-                              Height="34" Margin="4,0,0,0"/>
+                              Height="34" Margin="4,0,0,0" ToolTip="{loc:Loc Step1.Year}"/>
                 </Grid>
             </StackPanel>
 
             <!-- Gender + Resume language -->
-            <Grid Margin="0,14,0,0">
+            <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -101,17 +111,17 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="{loc:Loc Step1.Gender}" FontSize="12" Foreground="#2C3E50"/>
                     <ComboBox ItemsSource="{Binding GenderOptions}" SelectedItem="{Binding SelectedGender}"
-                              Height="34" Margin="0,3,0,0"/>
+                              Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{loc:Loc Step1.ResumeLanguage}" FontSize="12" Foreground="#2C3E50"/>
                     <ComboBox ItemsSource="{Binding ResumeLanguageOptions}" SelectedItem="{Binding SelectedResumeLanguage}"
-                              Height="34" Margin="0,3,0,0"/>
+                              Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
             </Grid>
 
             <!-- Contacts -->
-            <Grid Margin="0,14,0,0">
+            <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -120,25 +130,25 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="{loc:Loc Step1.Phone}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox Text="{Binding PersonalInfo.PhonePrimary, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                             Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{loc:Loc Step1.Email}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox x:Name="EmailBox" Text="{Binding PersonalInfo.Email, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0" TextChanged="RequiredField_TextChanged"/>
+                             Height="34" Margin="0,4,0,0" TextChanged="RequiredField_TextChanged"/>
                     <TextBlock Text="{loc:Loc Step1.EmailInvalid}" FontSize="10" Foreground="#E74C3C"
                                Visibility="{Binding IsValidEmail, Converter={StaticResource InverseBoolToVis}}"/>
                 </StackPanel>
             </Grid>
 
             <!-- Address -->
-            <StackPanel Margin="0,14,0,0">
+            <StackPanel Margin="0,16,0,0">
                 <TextBlock Text="{loc:Loc Step1.Address}" FontSize="12" Foreground="#2C3E50"/>
                 <TextBox Text="{Binding PersonalInfo.Address, UpdateSourceTrigger=PropertyChanged}"
-                         Height="34" Margin="0,3,0,0"/>
+                         Height="34" Margin="0,4,0,0"/>
             </StackPanel>
 
-            <Grid Margin="0,14,0,0">
+            <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -147,16 +157,16 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="{loc:Loc Step1.ZipCode}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox Text="{Binding PersonalInfo.ZipCode, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                             Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{loc:Loc Step1.City}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox Text="{Binding PersonalInfo.City, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                             Height="34" Margin="0,4,0,0" ToolTip="{loc:Loc Step1.CityPlaceholder}"/>
                 </StackPanel>
             </Grid>
 
-            <Grid Margin="0,14,0,0">
+            <Grid Margin="0,16,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="12"/>
@@ -165,14 +175,15 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="{loc:Loc Step1.PlaceOfBirth}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox Text="{Binding PersonalInfo.PlaceOfBirth, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                             Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <TextBlock Text="{loc:Loc Step1.DrivingLicense}" FontSize="12" Foreground="#2C3E50"/>
                     <TextBox Text="{Binding PersonalInfo.DrivingLicense, UpdateSourceTrigger=PropertyChanged}"
-                             Height="34" Margin="0,3,0,0"/>
+                             Height="34" Margin="0,4,0,0"/>
                 </StackPanel>
             </Grid>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

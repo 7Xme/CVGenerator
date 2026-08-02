@@ -8,7 +8,7 @@ namespace CVGenerator.Views;
 
 public partial class AiModeView : UserControl
 {
-    private MainViewModel ViewModel => (MainViewModel)DataContext;
+    private MainViewModel? ViewModel => DataContext as MainViewModel;
 
     public AiModeView()
     {
@@ -17,12 +17,12 @@ public partial class AiModeView : UserControl
 
     private void ImageArea_Click(object sender, MouseButtonEventArgs e)
     {
-        ViewModel.BrowseImageCommand.Execute(null);
+        ViewModel?.BrowseImageCommand.Execute(null);
     }
 
     private void txtApiKey_Loaded(object sender, RoutedEventArgs e)
     {
         // Keep a reference to the PasswordBox for the ViewModel to read.
-        ViewModel.AttachPasswordBox(txtApiKey);
+        ViewModel?.AttachPasswordBox(txtApiKey);
     }
 }

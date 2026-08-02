@@ -8,7 +8,8 @@
              xmlns:conv="clr-namespace:CVGenerator.Converters"
              xmlns:vm="clr-namespace:CVGenerator.ViewModels"
              xmlns:sm="clr-namespace:CVGenerator.Models.SectionModels"
-             d:DataContext="{d:DesignInstance Type=vm:Step2ExperiencesViewModel}">
+             d:DataContext="{d:DesignInstance Type=vm:Step2ExperiencesViewModel}"
+             FlowDirection="{Binding WindowFlowDirection, Source={x:Static loc:LocalizationService.Instance}}">
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVis"/>
@@ -528,6 +529,21 @@
                                              BorderThickness="0" Background="Transparent" VerticalAlignment="Center"
                                              Height="30"/>
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <Button Width="30" Height="26" FontSize="11" Margin="3,0"
+                                                Background="#ECF0F1" Foreground="#2C3E50" BorderThickness="0"
+                                                ToolTip="{loc:Loc Step2.Collapse}"
+                                                Click="CollapseButton_Click">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Content" Value="▾"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCollapsed}" Value="False">
+                                                            <Setter Property="Content" Value="▴"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
                                         <Button Content="▲" Width="30" Height="26" FontSize="10" Margin="3,0"
                                                 Background="#ECF0F1" Foreground="#2C3E50" BorderThickness="0"
                                                 ToolTip="{loc:Loc Step2.MoveUp}"

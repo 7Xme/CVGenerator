@@ -8,10 +8,30 @@
              xmlns:conv="clr-namespace:CVGenerator.Converters"
              xmlns:vm="clr-namespace:CVGenerator.ViewModels"
              xmlns:views="clr-namespace:CVGenerator.Views"
-             xmlns:sm="clr-namespace:CVGenerator.Models.SectionModels"
-             d:DataContext="{d:DesignInstance Type=vm:ManualWizardViewModel}">
+             d:DataContext="{d:DesignInstance Type=vm:ManualWizardViewModel}"
+             FlowDirection="{Binding WindowFlowDirection, Source={x:Static loc:LocalizationService.Instance}}">
     <UserControl.Resources>
-        <conv:IntToVisibilityConverter x:Key="IntToVis"/>
+        <conv:StepContentTemplateSelector x:Key="WizardSteps">
+
+            <conv:StepContentTemplateSelector.Step1Template>
+                <DataTemplate>
+                    <views:Step1PersonalView DataContext="{Binding DataContext.Step1, RelativeSource={RelativeSource AncestorType={x:Type views:ManualWizardView}}}"/>
+                </DataTemplate>
+            </conv:StepContentTemplateSelector.Step1Template>
+
+            <conv:StepContentTemplateSelector.Step2Template>
+                <DataTemplate>
+                    <views:Step2ExperiencesView DataContext="{Binding DataContext.Step2, RelativeSource={RelativeSource AncestorType={x:Type views:ManualWizardView}}}"/>
+                </DataTemplate>
+            </conv:StepContentTemplateSelector.Step2Template>
+
+            <conv:StepContentTemplateSelector.Step3Template>
+                <DataTemplate>
+                    <views:Step3TemplateView DataContext="{Binding DataContext.Step3, RelativeSource={RelativeSource AncestorType={x:Type views:ManualWizardView}}}"/>
+                </DataTemplate>
+            </conv:StepContentTemplateSelector.Step3Template>
+
+        </conv:StepContentTemplateSelector>
     </UserControl.Resources>
 
     <Grid Background="#F4F6F8">
@@ -48,7 +68,8 @@
         </Border>
 
         <!-- Step indicator -->
-        <Border Grid.Row="1" Padding="18,14,18,6">
+        <Border Grid.Row="1" Padding="18,16,18,10" Background="White"
+                BorderBrush="#ECF0F1" BorderThickness="0,0,0,1">
             <ItemsControl ItemsSource="{Binding Steps}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -57,55 +78,70 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
-                            <Border Width="34" Height="34" CornerRadius="17" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,10,0" VerticalAlignment="Center">
+                                <Border Width="34" Height="34" CornerRadius="17" VerticalAlignment="Center">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#BDC3C7"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding State}" Value="Active">
+                                                    <Setter Property="Background" Value="#2C3E50"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding State}" Value="Completed">
+                                                    <Setter Property="Background" Value="#27AE60"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding Number}" FontWeight="Bold" Foreground="White"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="8,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Icon}" FontSize="14"/>
+                                    <TextBlock Text="{Binding Title}" FontSize="11">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Foreground" Value="#7F8C8D"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding State}" Value="Active">
+                                                        <Setter Property="Foreground" Value="#2C3E50"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding State}" Value="Completed">
+                                                        <Setter Property="Foreground" Value="#27AE60"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                            <!-- connector line between steps -->
+                            <Border x:Name="Connector" Width="24" Height="2" Margin="0,0,10,0"
+                                    VerticalAlignment="Center" Background="#ECF0F1">
                                 <Border.Style>
                                     <Style TargetType="Border">
-                                        <Setter Property="Background" Value="#BDC3C7"/>
+                                        <Setter Property="Background" Value="#ECF0F1"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding State}" Value="Active">
-                                                <Setter Property="Background" Value="#2C3E50"/>
-                                            </DataTrigger>
                                             <DataTrigger Binding="{Binding State}" Value="Completed">
                                                 <Setter Property="Background" Value="#27AE60"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <TextBlock Text="{Binding Number}" FontWeight="Bold" Foreground="White"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
-                            <StackPanel Margin="8,0,0,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Icon}" FontSize="14"/>
-                                <TextBlock Text="{Binding Title}" FontSize="11">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" Value="#7F8C8D"/>
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding State}" Value="Active">
-                                                    <Setter Property="Foreground" Value="#2C3E50"/>
-                                                    <Setter Property="FontWeight" Value="Bold"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding State}" Value="Completed">
-                                                    <Setter Property="Foreground" Value="#27AE60"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Border>
 
-        <!-- Body -->
-        <Grid Grid.Row="2" Margin="18,4,18,0">
-            <views:Step1PersonalView DataContext="{Binding Step1}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=1}"/>
-            <views:Step2ExperiencesView DataContext="{Binding Step2}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=2}"/>
-            <views:Step3TemplateView DataContext="{Binding Step3}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=3}"/>
-        </Grid>
+        <!-- Body: swaps Step1 / Step2 / Step3 based on CurrentStep -->
+        <ContentControl Grid.Row="2"
+                        Content="{Binding CurrentStep}"
+                        ContentTemplateSelector="{StaticResource WizardSteps}"
+                        Margin="18,4,18,0"/>
 
         <!-- Footer -->
         <Border Grid.Row="3" Background="White" BorderBrush="#BDC3C7" BorderThickness="0,1,0,0" Padding="18,12">

@@ -20,6 +20,24 @@ public partial class Step1PersonalView : UserControl
             vm.BrowsePhotoCommand.Execute(null);
     }
 
+    private void PhotoArea_DragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+        e.Handled = true;
+    }
+
+    private void PhotoArea_Drop(object sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            return;
+
+        if (e.Data.GetData(DataFormats.FileDrop) is string[] { Length: > 0 } files &&
+            DataContext is Step1PersonalViewModel vm)
+        {
+            vm.LoadPhotoFromFile(files[0]);
+        }
+    }
+
     private void RequiredField_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (DataContext is not Step1PersonalViewModel vm)
