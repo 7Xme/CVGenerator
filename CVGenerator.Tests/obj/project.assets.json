@@ -3493,7 +3493,7 @@
     ]
   },
   "packageFolders": {
-    "D:\\nuget-packages": {}
+    "C:\\Users\\Jaklin\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
@@ -3501,7 +3501,7 @@
       "projectUniqueName": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\CVGenerator.Tests.csproj",
       "projectName": "CVGenerator.Tests",
       "projectPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\CVGenerator.Tests.csproj",
-      "packagesPath": "D:\\nuget-packages",
+      "packagesPath": "C:\\Users\\Jaklin\\.nuget\\packages\\",
       "outputPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [

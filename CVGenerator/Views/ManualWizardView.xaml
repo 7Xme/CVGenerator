@@ -102,9 +102,9 @@
 
         <!-- Body -->
         <Grid Grid.Row="2" Margin="18,4,18,0">
-            <views:Step1PersonalView Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=1}"/>
-            <views:Step2ExperiencesView Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=2}"/>
-            <views:Step3TemplateView Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=3}"/>
+            <views:Step1PersonalView DataContext="{Binding Step1}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=1}"/>
+            <views:Step2ExperiencesView DataContext="{Binding Step2}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=2}"/>
+            <views:Step3TemplateView DataContext="{Binding Step3}" Visibility="{Binding CurrentStep, Converter={StaticResource IntToVis}, ConverterParameter=3}"/>
         </Grid>
 
         <!-- Footer -->

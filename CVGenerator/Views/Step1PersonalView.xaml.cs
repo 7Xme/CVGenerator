@@ -3,13 +3,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CVGenerator.ViewModels;
 using Microsoft.Win32;
+using Serilog;
 
 namespace CVGenerator.Views;
 
 public partial class Step1PersonalView : UserControl
 {
-    private Step1PersonalViewModel ViewModel => (Step1PersonalViewModel)DataContext;
-
     public Step1PersonalView()
     {
         InitializeComponent();
@@ -17,11 +16,23 @@ public partial class Step1PersonalView : UserControl
 
     private void PhotoArea_Click(object sender, MouseButtonEventArgs e)
     {
-        ViewModel.BrowsePhotoCommand.Execute(null);
+        if (DataContext is Step1PersonalViewModel vm)
+            vm.BrowsePhotoCommand.Execute(null);
     }
 
     private void RequiredField_TextChanged(object sender, TextChangedEventArgs e)
     {
-        ViewModel.ValidateAll();
+        if (DataContext is not Step1PersonalViewModel vm)
+            return;
+
+        try
+        {
+            vm.ValidateAll();
+        }
+        catch (Exception ex)
+        {
+            var name = (sender as FrameworkElement)?.Name ?? "?";
+            Log.Error(ex, "Validation failed while typing in field '{Field}'", name);
+        }
     }
 }

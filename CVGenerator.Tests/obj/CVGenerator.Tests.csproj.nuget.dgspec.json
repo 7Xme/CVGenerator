@@ -10,7 +10,7 @@
         "projectUniqueName": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\CVGenerator.Tests.csproj",
         "projectName": "CVGenerator.Tests",
         "projectPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\CVGenerator.Tests.csproj",
-        "packagesPath": "D:\\nuget-packages",
+        "packagesPath": "C:\\Users\\Jaklin\\.nuget\\packages\\",
         "outputPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
@@ -115,7 +115,7 @@
         "projectUniqueName": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator\\CVGenerator.csproj",
         "projectName": "CVGenerator",
         "projectPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator\\CVGenerator.csproj",
-        "packagesPath": "D:\\nuget-packages",
+        "packagesPath": "C:\\Users\\Jaklin\\.nuget\\packages\\",
         "outputPath": "D:\\githubprojects\\cv maker\\CVGenerator\\CVGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [

@@ -1,5 +1,6 @@
 using CVGenerator.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace CVGenerator.Services;
 
@@ -25,10 +26,12 @@ public class NavigationService : INavigationService
         var vm = _serviceProvider.GetRequiredService<TViewModel>();
         configure?.Invoke(vm);
         _shell.CurrentViewModel = vm;
+        Log.Debug("Navigated to {ViewModel}", typeof(TViewModel).Name);
     }
 
     public void NavigateToLanding()
     {
         _shell.CurrentViewModel = _serviceProvider.GetRequiredService<LandingViewModel>();
+        Log.Debug("Navigated to Landing");
     }
 }

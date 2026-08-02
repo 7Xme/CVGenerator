@@ -9,6 +9,7 @@ using CVGenerator.Models;
 using CVGenerator.Models.SectionModels;
 using CVGenerator.Services;
 using CVGenerator.Templates;
+using Serilog;
 
 namespace CVGenerator.ViewModels;
 
@@ -98,6 +99,7 @@ public partial class ManualWizardViewModel : ObservableObject
         }
         OnPropertyChanged(nameof(CanGoNext));
         OnPropertyChanged(nameof(CanGoPrevious));
+        Log.Debug("Wizard step changed to {Step}", value);
     }
 
     public bool CanGoNext => CurrentStep < 3;
@@ -149,8 +151,16 @@ public partial class ManualWizardViewModel : ObservableObject
     private void SaveDraftInternal()
     {
         if (IsBusy) return;
-        _drafts.SaveDraft(BuildCvData(), Step3.SelectedTemplate.Key);
-        StatusMessage = _loc.GetString("Status.Saved");
+        try
+        {
+            _drafts.SaveDraft(BuildCvData(), Step3.SelectedTemplate.Key);
+            StatusMessage = _loc.GetString("Status.Saved");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Auto-save draft failed");
+            StatusMessage = ex.Message;
+        }
     }
 
     [RelayCommand]

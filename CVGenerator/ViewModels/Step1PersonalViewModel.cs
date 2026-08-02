@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using CVGenerator.Localization;
 using CVGenerator.Models;
 using CVGenerator.Services;
+using Serilog;
 
 namespace CVGenerator.ViewModels;
 
@@ -136,22 +137,39 @@ public partial class Step1PersonalViewModel : ObservableObject
 
     public void BuildDateOfBirth()
     {
-        if (int.TryParse(SelectedYear, out var year) && int.TryParse(SelectedMonth.Split(' ').First(), out _))
+        try
         {
-            int month = Months.IndexOf(SelectedMonth) + 1;
-            int day = int.TryParse(SelectedDay, out var d) ? d : 0;
-            if (month >= 1 && day >= 1 && year >= 1950)
-                PersonalInfo.DateOfBirth = $"{day:00}-{month:00}-{year}";
+            if (int.TryParse(SelectedYear, out var year) && int.TryParse(SelectedMonth.Split(' ').First(), out _))
+            {
+                int month = Months.IndexOf(SelectedMonth) + 1;
+                int day = int.TryParse(SelectedDay, out var d) ? d : 0;
+                if (month >= 1 && day >= 1 && year >= 1950)
+                    PersonalInfo.DateOfBirth = $"{day:00}-{month:00}-{year}";
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "BuildDateOfBirth failed (day='{Day}', month='{Month}', year='{Year}')",
+                SelectedDay, SelectedMonth, SelectedYear);
         }
     }
 
     public bool ValidateAll()
     {
-        IsValidFirstName = !string.IsNullOrWhiteSpace(PersonalInfo.FirstName);
-        IsValidLastName = !string.IsNullOrWhiteSpace(PersonalInfo.LastName);
-        IsValidEmail = !string.IsNullOrWhiteSpace(PersonalInfo.Email) && IsValidEmailAddress(PersonalInfo.Email);
+        try
+        {
+            IsValidFirstName = !string.IsNullOrWhiteSpace(PersonalInfo.FirstName);
+            IsValidLastName = !string.IsNullOrWhiteSpace(PersonalInfo.LastName);
+            IsValidEmail = !string.IsNullOrWhiteSpace(PersonalInfo.Email) && IsValidEmailAddress(PersonalInfo.Email);
 
-        return IsValidFirstName && IsValidLastName && IsValidEmail;
+            return IsValidFirstName && IsValidLastName && IsValidEmail;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "ValidateAll failed (first='{First}', last='{Last}', email='{Email}')",
+                PersonalInfo?.FirstName, PersonalInfo?.LastName, PersonalInfo?.Email);
+            return false;
+        }
     }
 
     private static bool IsValidEmailAddress(string email) => email.Contains('@') && email.Contains('.');
