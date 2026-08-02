@@ -17,6 +17,7 @@
   <data name="Common.Yes" xml:space="preserve">Yes</data>
   <data name="Common.No" xml:space="preserve">No</data>
   <data name="Common.Close" xml:space="preserve">Close</data>
+  <data name="Common.Present" xml:space="preserve">Present</data>
 
   <data name="Language.Label" xml:space="preserve">Language</data>
   <data name="Language.English" xml:space="preserve">English</data>

@@ -17,6 +17,7 @@
   <data name="Common.Yes" xml:space="preserve">نعم</data>
   <data name="Common.No" xml:space="preserve">لا</data>
   <data name="Common.Close" xml:space="preserve">إغلاق</data>
+  <data name="Common.Present" xml:space="preserve">حتى الآن</data>
 
   <data name="Language.Label" xml:space="preserve">اللغة</data>
   <data name="Language.English" xml:space="preserve">English</data>

@@ -61,6 +61,24 @@ public sealed class LocalizationService : INotifyPropertyChanged
 
     public string GetString(string key) => this[key];
 
+    public string GetString(string key, string? cultureName)
+    {
+        if (string.IsNullOrWhiteSpace(cultureName))
+            return GetString(key);
+
+        try
+        {
+            var culture = CultureInfo.GetCultureInfo(cultureName);
+            return _resources.GetString(key, culture)
+                ?? _resources.GetString(key, CultureInfo.InvariantCulture)
+                ?? key;
+        }
+        catch (CultureNotFoundException)
+        {
+            return GetString(key);
+        }
+    }
+
     public string GetMonthName(int month)
     {
         var months = _culture.DateTimeFormat.MonthNames;
