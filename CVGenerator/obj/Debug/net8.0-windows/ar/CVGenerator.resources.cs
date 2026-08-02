@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute(" ")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("نظام ذكي لإنشاء CV تلقائياً من صور النماذج اليدوية باستخدام Gemini API")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+500d761ef74758605ebf9a4d5dbfa2cfe6b9e485")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e9f6de25c5864a1fda3f21d5c66e1553f8cf1e3")]
 [assembly: System.Reflection.AssemblyProductAttribute("CVGenerator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CVGenerator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

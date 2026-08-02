@@ -524,10 +524,15 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{Binding Icon}" FontSize="18" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                    <TextBox Grid.Column="1" Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-                                             FontSize="15" FontWeight="Bold" Foreground="#2C3E50"
-                                             BorderThickness="0" Background="Transparent" VerticalAlignment="Center"
-                                             Height="30"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding Title}"
+                                               FontSize="16"
+                                               FontWeight="SemiBold"
+                                               Foreground="#2C3E50"
+                                               VerticalAlignment="Center"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap"
+                                               ToolTip="{Binding Title}"/>
                                     <StackPanel Grid.Column="2" Orientation="Horizontal">
                                         <Button Width="30" Height="26" FontSize="11" Margin="3,0"
                                                 Background="#ECF0F1" Foreground="#2C3E50" BorderThickness="0"
