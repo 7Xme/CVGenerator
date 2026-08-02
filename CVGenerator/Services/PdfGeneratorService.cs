@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.IO;
 using CVGenerator.Localization;
 using CVGenerator.Models;
@@ -14,6 +13,7 @@ namespace CVGenerator.Services;
 public class PdfGeneratorService
 {
     private static readonly string[] ProficiencyLevels = { "Beginner", "Intermediate", "Advanced", "Expert", "Native" };
+    private static readonly LocalizationService Loc = LocalizationService.Instance;
 
     static PdfGeneratorService()
     {
@@ -21,13 +21,9 @@ public class PdfGeneratorService
         // suppresses the license validation dialog that would otherwise block PDF generation.
         QuestPDF.Settings.License = LicenseType.Community;
 
-        // Enable lookup of Windows system fonts so Arabic text can be rendered
-        // with a font that actually contains Arabic glyphs (e.g. Segoe UI).
+        // Enable lookup of Windows system fonts so Arabic text can be rendered with
+        // a font that actually contains Arabic glyphs (e.g. Segoe UI).
         QuestPDF.Settings.UseEnvironmentFonts = true;
-    }
-
-    public PdfGeneratorService()
-    {
     }
 
     public string GeneratePdf(CVData data, TemplateDefinition template,
@@ -41,9 +37,13 @@ public class PdfGeneratorService
                 ? "en"
                 : data.PersonalInfo.ResumeLanguage;
             var isRtl = resumeLang == "ar";
-            // "en" / "fr" / "ar" are the culture suffixes used by the .resx resource files.
-            var cultureName = resumeLang == "fr" ? "fr" : resumeLang == "ar" ? "ar" : "en";
-            var fontFamily = isRtl ? "Segoe UI" : string.IsNullOrWhiteSpace(template.FontFamily) ? "Segoe UI" : template.FontFamily;
+            // "en" / "fr" / "ar" are the culture suffixes used by the embedded .resx files.
+            var cultureName = resumeLang;
+
+            // Arabic must use a Windows system font that contains Arabic glyphs.
+            var fontFamily = isRtl
+                ? "Segoe UI"
+                : string.IsNullOrWhiteSpace(template.FontFamily) ? "Segoe UI" : template.FontFamily;
 
             Document.Create(container =>
             {
@@ -56,23 +56,23 @@ public class PdfGeneratorService
                         .FontSize(10)
                         .FontColor("#37474F"));
 
-                    // Mirror the whole document layout for Arabic resumes.
-                    if (isRtl)
-                        page.ContentFromRightToLeft();
-
-                    page.Header().Column(header =>
+                    IContainer headerContainer = page.Header();
+                    if (isRtl) headerContainer = headerContainer.ContentFromRightToLeft();
+                    headerContainer.Column(header =>
                     {
                         header.Spacing(6);
-                        RenderHeader(header, data, template, isRtl, cultureName);
+                        RenderHeader(header, data, template);
                     });
 
-                    page.Content().PaddingTop(12).Column(column =>
+                    IContainer contentContainer = page.Content();
+                    if (isRtl) contentContainer = contentContainer.ContentFromRightToLeft();
+                    contentContainer.PaddingTop(12).Column(column =>
                     {
                         column.Spacing(10);
                         foreach (var section in sections)
                         {
                             if (!section.IsVisibleInCv) continue;
-                            RenderSection(column, section, template, isRtl, cultureName);
+                            RenderSection(column, section, template, cultureName);
                         }
                     });
 
@@ -93,16 +93,7 @@ public class PdfGeneratorService
         }
     }
 
-    /// <summary>
-    /// Returns a Windows system font with Arabic glyph support for RTL documents,
-    /// otherwise preserves the template's font family.
-    /// </summary>
-    private static string GetCultureFont(bool isRtl, string templateFontFamily)
-    {
-        return isRtl ? "Segoe UI" : templateFontFamily;
-    }
-
-    private static void RenderHeader(ColumnDescriptor header, CVData data, TemplateDefinition template, bool isRtl, string cultureName)
+    private static void RenderHeader(ColumnDescriptor header, CVData data, TemplateDefinition template)
     {
         var pi = data.PersonalInfo;
         string name = string.IsNullOrWhiteSpace(pi.FullName)
@@ -111,23 +102,12 @@ public class PdfGeneratorService
 
         if (!string.IsNullOrWhiteSpace(pi.FullNameLatin) && !IsArabic(pi.ResumeLanguage))
         {
-            header.Item().Text(text =>
-            {
-                text.Span(name).FontSize(26).Bold().FontColor(template.PrimaryColor);
-                if (isRtl) text.DirectionFromRightToLeft();
-            });
-            header.Item().Text(text =>
-            {
-                text.Span(pi.FullNameLatin).FontSize(16).FontColor("#78909C");
-            });
+            header.Item().Text(text => text.Span(name).FontSize(26).Bold().FontColor(template.PrimaryColor));
+            header.Item().Text(text => text.Span(pi.FullNameLatin).FontSize(16).FontColor("#78909C"));
         }
         else
         {
-            header.Item().Text(text =>
-            {
-                text.Span(name).FontSize(26).Bold().FontColor(template.PrimaryColor);
-                if (isRtl) text.DirectionFromRightToLeft();
-            });
+            header.Item().Text(text => text.Span(name).FontSize(26).Bold().FontColor(template.PrimaryColor));
         }
 
         var contact = new List<string>();
@@ -146,7 +126,6 @@ public class PdfGeneratorService
                     if (i > 0) text.Span("  |  ").FontColor("#B0BEC5");
                     text.Span(contact[i]).FontColor("#546E7A").FontSize(9);
                 }
-                if (isRtl) text.DirectionFromRightToLeft();
             });
         }
 
@@ -165,7 +144,7 @@ public class PdfGeneratorService
         header.Item().PaddingTop(6).LineHorizontal(1).LineColor(template.PrimaryColor);
     }
 
-    private static void RenderSection(ColumnDescriptor column, SectionBase section, TemplateDefinition template, bool isRtl, string cultureName)
+    private static void RenderSection(ColumnDescriptor column, SectionBase section, TemplateDefinition template, string cultureName)
     {
         if (string.IsNullOrWhiteSpace(section.Title)) return;
 
@@ -173,29 +152,28 @@ public class PdfGeneratorService
         {
             item.Spacing(4);
 
-            // Localize the section title when it still holds a default (i.e. un-renamed) label.
+            // Localize the section title when it still holds a default (un-renamed) label.
             string title = LocalizeSectionTitle(section, cultureName);
 
             item.Item().Text(text =>
             {
                 text.Span(section.Icon + "  ").FontSize(11);
                 text.Span(title).FontSize(13).Bold().FontColor(template.SecondaryColor);
-                if (isRtl) text.DirectionFromRightToLeft();
             });
             item.Item().LineHorizontal(0.8f).LineColor(template.PrimaryColor);
 
             switch (section)
             {
                 case ObjectiveSection obj:
-                    AddParagraph(item, obj.Content, isRtl);
+                    AddParagraph(item, obj.Content);
                     break;
 
                 case InterestsSection ints:
-                    AddInlineList(item, ints.Tags.ToList(), isRtl);
+                    AddInlineList(item, ints.Tags.ToList());
                     break;
 
                 case CustomSection custom:
-                    AddParagraph(item, custom.Content, isRtl);
+                    AddParagraph(item, custom.Content);
                     break;
 
                 case WorkExperienceSection we:
@@ -203,7 +181,7 @@ public class PdfGeneratorService
                     {
                         RenderEntry(item, BuildList(e.JobTitle, e.Employer, e.City),
                             BuildDateRange(e.StartMonth, e.StartYear, e.EndMonth, e.EndYear, e.IsCurrent, cultureName),
-                            e.Description, isRtl);
+                            e.Description);
                     }
                     break;
 
@@ -212,47 +190,47 @@ public class PdfGeneratorService
                     {
                         RenderEntry(item, BuildList(e.Degree, e.Institution, e.FieldOfStudy, e.City),
                             BuildDateRange(e.StartMonth, e.StartYear, e.EndMonth, e.EndYear, false, cultureName),
-                            e.Description, isRtl);
+                            e.Description);
                     }
                     break;
 
                 case SkillsSection skills:
                     AddTwoColumn(item, skills.Entries
                         .Where(s => !string.IsNullOrWhiteSpace(s.Name))
-                        .Select(s => (s.Name, Level(s.Level))).ToList(), isRtl);
+                        .Select(s => (s.Name, Level(s.Level))).ToList());
                     break;
 
                 case LanguagesSection langs:
                     AddTwoColumn(item, langs.Entries
                         .Where(l => !string.IsNullOrWhiteSpace(l.Name))
-                        .Select(l => (l.Name, Level(l.Level))).ToList(), isRtl);
+                        .Select(l => (l.Name, Level(l.Level))).ToList());
                     break;
 
                 case ReferencesSection refs:
                     foreach (var r in refs.Entries.Where(r => !string.IsNullOrWhiteSpace(r.Name)))
                     {
-                        AddParagraph(item, BuildList(r.Name, r.Company, r.Phone, r.Email), isRtl);
+                        AddParagraph(item, BuildList(r.Name, r.Company, r.Phone, r.Email));
                     }
                     break;
 
                 case CoursesSection courses:
                     foreach (var c in courses.Entries.Where(c => !string.IsNullOrWhiteSpace(c.Name)))
                     {
-                        RenderEntry(item, BuildList(c.Name, c.Institution), c.Year, c.Description, isRtl);
+                        RenderEntry(item, BuildList(c.Name, c.Institution), c.Year, c.Description);
                     }
                     break;
 
                 case AchievementsSection ach:
                     foreach (var a in ach.Entries.Where(a => !string.IsNullOrWhiteSpace(a.Title)))
                     {
-                        RenderEntry(item, a.Title, a.Date, a.Description, isRtl);
+                        RenderEntry(item, a.Title, a.Date, a.Description);
                     }
                     break;
 
                 case PublicationsSection pubs:
                     foreach (var p in pubs.Entries.Where(p => !string.IsNullOrWhiteSpace(p.Title)))
                     {
-                        RenderEntry(item, BuildList(p.Title, p.Publisher), p.Date, p.Url, isRtl);
+                        RenderEntry(item, BuildList(p.Title, p.Publisher), p.Date, p.Url);
                     }
                     break;
             }
@@ -260,10 +238,9 @@ public class PdfGeneratorService
     }
 
     /// <summary>
-    /// Maps a section's Kind to its localized title. If the current title has not
-    /// been customized by the user (i.e. it matches the default label in any of the
-    /// three supported languages), it is replaced with the resume-culture translation.
-    /// User-renamed titles are preserved as-is.
+    /// Maps a section's Kind to its localized title. If the current title has not been
+    /// customized by the user (i.e. it matches the default label in any supported language),
+    /// it is replaced with the resume-culture translation. User-renamed titles are preserved.
     /// </summary>
     private static string LocalizeSectionTitle(SectionBase section, string cultureName)
     {
@@ -282,71 +259,52 @@ public class PdfGeneratorService
             _ => null
         };
 
-        if (key == null) return section.Title;
+        if (key == null || string.IsNullOrWhiteSpace(section.Title))
+            return section.Title;
 
-        // Default labels in each supported language for this section kind.
-        var locals = LocalizationService.Instance;
-        string defaultEn = locals.GetString(key, "en");
-        string defaultFr = locals.GetString(key, "fr");
-        string defaultAr = locals.GetString(key, "ar");
+        // Default labels in the three supported languages for this section kind.
+        string defaultEn = Loc.GetString(key, "en");
+        string defaultFr = Loc.GetString(key, "fr");
+        string defaultAr = Loc.GetString(key, "ar");
 
-        // Only localize un-renamed default titles; keep custom titles untouched.
+        // Only translate un-renamed default titles; keep custom titles untouched.
         if (section.Title == defaultEn || section.Title == defaultFr || section.Title == defaultAr)
-            return locals.GetString(key, cultureName);
+            return Loc.GetString(key, cultureName);
 
         return section.Title;
     }
 
-    private static void RenderEntry(ColumnDescriptor column, string title, string dateRange, string description, bool isRtl)
+    private static void RenderEntry(ColumnDescriptor column, string title, string dateRange, string description)
     {
         column.Item().Column(item =>
         {
             item.Spacing(1);
+            // The first row item anchors the leading edge; under RTL content direction the
+            // row is mirrored so the title sits on the right and the date on the far left.
             item.Item().Row(row =>
             {
-                if (isRtl)
+                row.RelativeItem().Text(text => text.Span(title).FontSize(10.5f).Bold().FontColor("#263238"));
+                if (!string.IsNullOrWhiteSpace(dateRange))
                 {
-                    // Mirror: title on the right, date on the far left.
-                    row.RelativeItem().AlignRight().Text(text =>
-                    {
-                        text.Span(title).FontSize(10.5f).Bold().FontColor("#263238");
-                        text.DirectionFromRightToLeft();
-                    });
-                    if (!string.IsNullOrWhiteSpace(dateRange))
-                    {
-                        row.ConstantItem(140).AlignLeft().Text(text =>
-                            text.Span(dateRange).FontSize(9).FontColor(templateHint("date")));
-                    }
-                }
-                else
-                {
-                    row.RelativeItem().Text(text => text.Span(title).FontSize(10.5f).Bold().FontColor("#263238"));
-                    if (!string.IsNullOrWhiteSpace(dateRange))
-                    {
-                        row.ConstantItem(140).AlignRight().Text(text =>
-                            text.Span(dateRange).FontSize(9).FontColor(templateHint("date")));
-                    }
+                    row.ConstantItem(140).AlignRight().Text(text =>
+                        text.Span(dateRange).FontSize(9).FontColor(templateHint("date")));
                 }
             });
-            AddParagraph(item, description, isRtl);
+            AddParagraph(item, description);
         });
     }
 
     private static string templateHint(string _) => "#78909C";
 
-    private static void AddParagraph(ColumnDescriptor column, string content, bool isRtl)
+    private static void AddParagraph(ColumnDescriptor column, string content)
     {
         var text = RichTextHelper.GetPlainText(content);
         if (string.IsNullOrWhiteSpace(text)) return;
 
-        column.Item().PaddingTop(2).Text(x =>
-        {
-            x.Span(text).FontSize(9.5f).LineHeight(1.25f);
-            if (isRtl) x.DirectionFromRightToLeft();
-        });
+        column.Item().PaddingTop(2).Text(text).FontSize(9.5f).LineHeight(1.25f);
     }
 
-    private static void AddInlineList(ColumnDescriptor column, List<string> items, bool isRtl)
+    private static void AddInlineList(ColumnDescriptor column, List<string> items)
     {
         if (items.Count == 0) return;
         column.Item().PaddingTop(2).Text(text =>
@@ -356,11 +314,10 @@ public class PdfGeneratorService
                 if (i > 0) text.Span("  •  ").FontColor("#90A4AE");
                 text.Span(items[i]).FontSize(9.5f);
             }
-            if (isRtl) text.DirectionFromRightToLeft();
         });
     }
 
-    private static void AddTwoColumn(ColumnDescriptor column, List<(string Name, string Level)> items, bool isRtl)
+    private static void AddTwoColumn(ColumnDescriptor column, List<(string Name, string Level)> items)
     {
         if (items.Count == 0) return;
 
@@ -370,16 +327,14 @@ public class PdfGeneratorService
             {
                 col.Item().Row(row =>
                 {
-                    for (int i = 0; i < chunk.Length; i++)
+                    foreach (var (name, level) in chunk)
                     {
-                        var (name, level) = chunk[isRtl ? chunk.Length - 1 - i : i];
                         row.RelativeItem().Text(text =>
                         {
                             text.Span("• ").FontColor("#90A4AE");
                             text.Span(name).FontSize(9.5f);
                             if (!string.IsNullOrEmpty(level))
                                 text.Span($"  ({level})").FontSize(9).FontColor("#78909C");
-                            if (isRtl) text.DirectionFromRightToLeft();
                         });
                     }
                     for (int i = chunk.Length; i < 2; i++)
@@ -392,11 +347,6 @@ public class PdfGeneratorService
     private static string Level(string level)
     {
         if (string.IsNullOrWhiteSpace(level)) return string.Empty;
-        return proficiencyLabel(level);
-    }
-
-    private static string proficiencyLabel(string level)
-    {
         return level;
     }
 
@@ -409,20 +359,10 @@ public class PdfGeneratorService
     {
         string start = $"{startMonth} {startYear}".Trim();
         string end = isCurrent
-            ? LocalizationService.Instance.GetString("Common.Present", cultureName)
+            ? Loc.GetString("Common.Present", cultureName)
             : $"{endMonth} {endYear}".Trim();
         if (string.IsNullOrEmpty(start) && string.IsNullOrEmpty(end)) return string.Empty;
         return $"{start} – {end}".Trim();
-    }
-
-    private static CultureInfo GetResumeCulture(string resumeLanguage)
-    {
-        return resumeLanguage switch
-        {
-            "fr" => CultureInfo.GetCultureInfo("fr-FR"),
-            "ar" => CultureInfo.GetCultureInfo("ar-SA"),
-            _ => CultureInfo.GetCultureInfo("en-US")
-        };
     }
 
     private static bool IsArabic(string resumeLanguage) => resumeLanguage == "ar";
