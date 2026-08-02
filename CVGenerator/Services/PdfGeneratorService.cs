@@ -14,9 +14,15 @@ public class PdfGeneratorService
 {
     private static readonly string[] ProficiencyLevels = { "Beginner", "Intermediate", "Advanced", "Expert", "Native" };
 
+    static PdfGeneratorService()
+    {
+        // QuestPDF 2024.3.0 ships under the MIT license; the community license
+        // suppresses the license validation dialog that would otherwise block PDF generation.
+        QuestPDF.Settings.License = LicenseType.Community;
+    }
+
     public PdfGeneratorService()
     {
-        // QuestPDF 2024.3.0 ships under the MIT license; no license key required.
     }
 
     public string GeneratePdf(CVData data, TemplateDefinition template,
